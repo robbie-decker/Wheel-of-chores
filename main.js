@@ -1,11 +1,6 @@
 import './style.css';
 // import * as d3 from "d3";
-// var people = ['He', 'She', 'They', 'It'];
 
-console.log(d3);
-
-
-document.querySelector('#tester').innerHTML = '<h1>Hello Vite!</h1>'
 var padding = {top:20, right:40, bottom:0, left:0},
             w = 500 - padding.left - padding.right,
             h = 500 - padding.top  - padding.bottom,
@@ -17,40 +12,13 @@ var padding = {top:20, right:40, bottom:0, left:0},
             color = d3.scale.category20(); //category20c()
             //randomNumbers = getRandomNumbers();
 
-        //http://osric.com/bingo-card-generator/?title=HTML+and+CSS+BINGO!&words=padding%2Cfont-family%2Ccolor%2Cfont-weight%2Cfont-size%2Cbackground-color%2Cnesting%2Cbottom%2Csans-serif%2Cperiod%2Cpound+sign%2C%EF%B9%A4body%EF%B9%A5%2C%EF%B9%A4ul%EF%B9%A5%2C%EF%B9%A4h1%EF%B9%A5%2Cmargin%2C%3C++%3E%2C{+}%2C%EF%B9%A4p%EF%B9%A5%2C%EF%B9%A4!DOCTYPE+html%EF%B9%A5%2C%EF%B9%A4head%EF%B9%A5%2Ccolon%2C%EF%B9%A4style%EF%B9%A5%2C.html%2CHTML%2CCSS%2CJavaScript%2Cborder&freespace=true&freespaceValue=Web+Design+Master&freespaceRandom=false&width=5&height=5&number=35#results
-
 var data = [
-    {"label":"Question 1",  "value":1,  "question":"What CSS property is used for specifying the area between the content and its border?"}, // padding
-    {"label":"Question 2",  "value":1,  "question":"What CSS property is used for changing the font?"}, //font-family
-    {"label":"Question 3",  "value":1,  "question":"What CSS property is used for changing the color of text?"}, //color
-    {"label":"Question 4",  "value":1,  "question":"What CSS property is used for changing the boldness of text?"}, //font-weight
-    {"label":"Question 5",  "value":1,  "question":"What CSS property is used for changing the size of text?"}, //font-size
-    {"label":"Question 6",  "value":1,  "question":"What CSS property is used for changing the background color of a box?"}, //background-color
-    {"label":"Question 7",  "value":1,  "question":"Which word is used for specifying an HTML tag that is inside another tag?"}, //nesting
-    {"label":"Question 8",  "value":1,  "question":"Which side of the box is the third number in: margin:1px 1px 1px 1px; ?"}, //bottom
-    {"label":"Question 9",  "value":1,  "question":"What are the fonts that don't have serifs at the ends of letters called?"}, //sans-serif
-    {"label":"Question 10", "value":1, "question":"With CSS selectors, what character prefix should one use to specify a class?"}, //period
-    {"label":"Question 11", "value":1, "question":"With CSS selectors, what character prefix should one use to specify an ID?"}, //pound sign
-    {"label":"Question 12", "value":1, "question":"In an HTML document, which tag holds all of the content people see?"}, //<body>
-    {"label":"Question 13", "value":1, "question":"In an HTML document, which tag indicates an unordered list?"}, //<ul>
-    {"label":"Question 14", "value":1, "question":"In an HTML document, which tag indicates the most important heading of your document?"}, //<h1>
-    {"label":"Question 15", "value":1, "question":"What CSS property is used for specifying the area outside a box?"}, //margin
-    {"label":"Question 16", "value":1, "question":"What type of bracket is used for HTML tags?"}, //< >
-    {"label":"Question 17", "value":1, "question":"What type of bracket is used for CSS rules?"}, // { }
-    {"label":"Question 18", "value":1, "question":"Which HTML tag is used for specifying a paragraph?"}, //<p>
-    {"label":"Question 19", "value":1, "question":"What should always be the very first line of code in your HTML?"}, //<!DOCTYPE html>
-    {"label":"Question 20", "value":1, "question":"What HTML tag holds all of the metadata tags for your page?"}, //<head>
-    {"label":"Question 21", "value":1, "question":"In CSS, what character separates a property from a value?"}, // colon
-    {"label":"Question 22", "value":1, "question":"What HTML tag holds all of your CSS code?"}, // <style>
-    {"label":"Question 23", "value":1, "question":"What file extension should you use for your web pages?"}, // .html
-    {"label":"Question 24", "value":1, "question":"Which coding language is used for marking up content and structure on a web page?"}, // HTML
-    {"label":"Question 25", "value":1, "question":"Which coding language is used for specifying the design of a web page?"}, // CSS
-    {"label":"Question 26", "value":1, "question":"Which coding language is used for adding functionality to a web page?"}, // JavaScript
-    {"label":"Question 27", "value":1, "question":"What CSS property is used for making the edges of a box visible?"}, // border
-    {"label":"Question 28", "value":1, "question":"What character symbol is used at the end of each CSS statement?"},//semi-colon
-    {"label":"Question 29", "value":1, "question":"By default, how wide is a <div> box?"}, //100%
-    {"label":"Question 30", "value":1, "question":"What character symbol do I use to specify multiple CSS selectors in one code block?"} //comma
+    {"label": "Testing", "question": "This is what I want to say"},
+    {"label": "Another", "question": "New Thang"}
 ];
+
+document.querySelector('#tester').innerHTML = '<h1>Hello Vite!</h1>'
+document.getElementById('add').onclick = function(){addPerson()};
 
 
 var svg = d3.select('#chart')
@@ -174,6 +142,10 @@ function rotTween(to) {
     return function(t) {
         return "rotate(" + i(t) + ")";
     };
+}
+
+function addPerson(){
+    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOH"); 
 }
 
 

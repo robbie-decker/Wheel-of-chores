@@ -32,8 +32,9 @@ text{
   position:absolute;
   width:500px;
   height:500px;
-  top:0;
+  top:10rem;
   left:0;
+  margin: 25rem, 0rem;
 }
 #question{
   position: absolute;
