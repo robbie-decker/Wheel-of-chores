@@ -1,0 +1,59 @@
+/* #app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+
+.wheel{
+  height: 500px;
+  width: 500px;
+  background-color: darkkhaki;
+  border-radius: 50%;
+  display: block;
+  margin: auto;
+}
+
+circle{
+  fill: yellowgreen;
+  stroke: #655;
+  stroke-width: 20;
+} */
+
+text{
+  font-family:Helvetica, Arial, sans-serif;
+  font-size:11px;
+  pointer-events:none;
+}
+#chart{
+  position:absolute;
+  width:500px;
+  height:500px;
+  top:0;
+  left:0;
+}
+#question{
+  position: absolute;
+  width:400px;
+  height:500px;
+  top:0;
+  left:520px;
+}
+#question h1{
+  font-size: 50px;
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top:50%;
+  -webkit-transform:translate(0,-50%);
+          transform:translate(0,-50%);
+}
+
+h1{
+  color: red;
+}
