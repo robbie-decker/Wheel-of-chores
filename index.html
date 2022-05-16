@@ -8,14 +8,20 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+    <h1 class="title">Here is the title</h1>
+    <div id="question"><h1></h1></div>
     <div id="chart"></div>
-    <div id="question"></div>
-    <div id="tester"></div>
-    <h1>Here is the title</h1>
-    <span class="wheel"></span>
-    <button onclick="addPerson()" id="add">Add new person!</button>
-    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>    
-    <script src="functions.js"></script>
+    <!-- <div id="form"></div> -->
+    <div class="buttons">
+      <div class="add_container">
+        <button id="add">Add new person!</button>
+        <input id="add_text" type="text">
+      </div>
+      <button id="delete">Delete recent person!</button>
+      <button id="clear">Remove everything</button>
+    </div>
+    <p id=notif></p>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="module" src="/main.js"></script>
   </body>
 </html>

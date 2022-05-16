@@ -1,6 +1,29 @@
 import './style.css';
 // import * as d3 from "d3";
 
+var add = document.getElementById('add') 
+add.onclick = function(){addPerson()};
+document.getElementById('delete').onclick = function(){deletePerson()};
+document.getElementById('clear').onclick = function(){deletePerson()};
+
+
+add.addEventListener("keypress", function(event){
+    console.log(event);
+    if(event.key === 13){
+        event.preventDefault();
+        add.click();
+    }gbhg
+});
+var data = []
+if (typeof(Storage) !== "undefined"){
+    // Has right version of browser to use local stoage
+    if(localStorage.length > 0){
+        data.push({"label" : "Your name goes here"})
+    }
+}
+else{
+    //can not keep info
+}
 var padding = {top:20, right:40, bottom:0, left:0},
             w = 500 - padding.left - padding.right,
             h = 500 - padding.top  - padding.bottom,
@@ -12,58 +35,87 @@ var padding = {top:20, right:40, bottom:0, left:0},
             color = d3.scale.category20(); //category20c()
             //randomNumbers = getRandomNumbers();
 
-var data = [
-    {"label": "Testing", "question": "This is what I want to say"},
-    {"label": "Another", "question": "New Thang"}
-];
-
-document.querySelector('#tester').innerHTML = '<h1>Hello Vite!</h1>'
-document.getElementById('add').onclick = function(){addPerson()};
+console.log(localStorage);
+console.log(localStorage.key(0));
 
 
-var svg = d3.select('#chart')
-    .append("svg")
-    .data([data])
-    .attr("width",  w + padding.left + padding.right)
-    .attr("height", h + padding.top + padding.bottom);
-
-var container = svg.append("g")
-    .attr("class", "chartholder")
-    .attr("transform", "translate(" + (w/2 + padding.left) + "," + (h/2 + padding.top) + ")");
-
-var vis = container
-    .append("g");
-
-var pie = d3.layout.pie().sort(null).value(function(d){return 1;});
-
-// declare an arc generator function
-var arc = d3.svg.arc().outerRadius(r);
-
-// select paths, use arc generator to draw
-var arcs = vis.selectAll("g.slice")
-    .data(pie)
-    .enter()
-    .append("g")
-    .attr("class", "slice");
+// var data = [
+//     {"label": "Testing", "name": "This is what I want to say"},
+//     {"label": "Another", "name": "New Thang"}
+// ];
+var svg, container, vis, pie, arc, arcs;
+renderWheel();
 
 
-arcs.append("path")
-    .attr("fill", function(d, i){ return color(i); })
-    .attr("d", function (d) { return arc(d); });
+function renderWheel(){
+    console.log(tester);
+    svg = d3.select('#chart')
+        .append("svg")
+        .data([data])
+        .attr("width",  w + padding.left + padding.right)
+        .attr("height", h + padding.top + padding.bottom);
 
-// add the text
-arcs.append("text").attr("transform", function(d){
-        d.innerRadius = 0;
-        d.outerRadius = r;
-        d.angle = (d.startAngle + d.endAngle)/2;
-        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
-    })
-    .attr("text-anchor", "end")
-    .text( function(d, i) {
-        return data[i].label;
-});
+    container = svg.append("g")
+        .attr("class", "chartholder")
+        .attr("transform", "translate(" + (w/2 + padding.left) + "," + (h/2 + padding.top) + ")");
 
-container.on("click", spin);
+    vis = container
+        .append("g");
+
+    pie = d3.layout.pie().sort(null).value(function(d){return 1;});
+
+    // declare an arc generator function
+    arc = d3.svg.arc().outerRadius(r);
+
+    // select paths, use arc generator to draw
+    arcs = vis.selectAll("g.slice")
+        .data(pie)
+        .enter()
+        .append("g")
+        .attr("class", "slice");
+
+
+    arcs.append("path")
+        .attr("fill", function(d, i){ return color(i); })
+        .attr("d", function (d) { return arc(d); });
+
+    // add the text
+    arcs.append("text").attr("transform", function(d){
+            d.innerRadius = 0;
+            d.outerRadius = r;
+            d.angle = (d.startAngle + d.endAngle)/2;
+            return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
+        })
+        .attr("text-anchor", "end")
+        .text( function(d, i) {
+            return data[i].label;
+    });
+
+    container.on("click", spin);
+
+        //make arrow
+    svg.append("g")
+    .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
+    .append("path")
+    .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
+    .style({"fill":"black"});
+
+    //draw spin circle
+    container.append("circle")
+    .attr("cx", 0)
+    .attr("cy", 0)
+    .attr("r", 60)
+    .style({"fill":"white","cursor":"crosshair"});
+    // I am a big fan of the COD crosshair on the button
+
+    //spin text
+    container.append("text")
+    .attr("x", 0)
+    .attr("y", 15)
+    .attr("text-anchor", "middle")
+    .text("SPIN")
+    .style({"font-weight":"bold", "font-size":"30px"});
+}
 
 function spin(d){
     container.on("click", null);
@@ -99,42 +151,21 @@ function spin(d){
     .duration(3000)
     .attrTween("transform", rotTween)
     .each("end", function(){
-
-        //mark question as seen
+        console.log("DONE SPINNING");
+        console.log(data[picked].name);
+        //mark slice as seen
         d3.select(".slice:nth-child(" + (picked + 1) + ") path")
             .attr("fill", "#111");
 
-        //populate question
-        d3.select("#question h1")
-            .text(data[picked].question);
+        //populate div
+        d3.select("#name h1")
+            .text(data[picked].label + " has to do the thing D:");
 
         oldrotation = rotation;
 
         container.on("click", spin);
     });
 }
-
-//make arrow
-svg.append("g")
-.attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
-.append("path")
-.attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
-.style({"fill":"black"});
-
-//draw spin circle
-container.append("circle")
-.attr("cx", 0)
-.attr("cy", 0)
-.attr("r", 60)
-.style({"fill":"white","cursor":"pointer"});
-
-//spin text
-container.append("text")
-.attr("x", 0)
-.attr("y", 15)
-.attr("text-anchor", "middle")
-.text("SPIN")
-.style({"font-weight":"bold", "font-size":"30px"});
 
 
 function rotTween(to) {
@@ -145,9 +176,42 @@ function rotTween(to) {
 }
 
 function addPerson(){
-    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOH"); 
+    console.log(localStorage);
+    oldpick = [];
+    var text = document.getElementById('add_text').value;
+    console.log(text);
+    if(text === ""){
+        document.querySelector("#notif").innerHTML = "Something went wrong";
+        return;
+    }
+    else{
+        document.querySelector("#notif").innerHTML = "";
+    }      
+
+    for(var x in data){
+        console.log(data[x]);
+        if(data[x].end || {} == "1")
+            data.pop();
+    }
+    svg.remove();
+    data.push({"label": text, "name": "extra words"});
+    renderWheel();
 }
 
+function deletePerson(){
+    oldpick = [];
+    // svg.remove()
+    data.pop();
+    if(data.length == 0)
+        data.push({"label": "Your name goes here", "end": 1})
+    renderWheel();
+}
+
+function clearWheel(){
+    localStorage.clear();
+    data = []
+    renderWheel();
+}
 
 function getRandomNumbers(){
     var array = new Uint16Array(1000);
