@@ -1,10 +1,13 @@
 import './style.css';
+import Proton from "proton-engine";
+
 // import * as d3 from "d3";
 
+// Get my buttons
 var add = document.getElementById('add') 
 add.onclick = function(){addPerson()};
 document.getElementById('delete').onclick = function(){deletePerson()};
-document.getElementById('clear').onclick = function(){deletePerson()};
+document.getElementById('clear').onclick = function(){clearWheel()};
 
 
 add.addEventListener("keypress", function(event){
@@ -12,43 +15,62 @@ add.addEventListener("keypress", function(event){
     if(event.key === 13){
         event.preventDefault();
         add.click();
-    }gbhg
+    }
 });
 var data = []
 if (typeof(Storage) !== "undefined"){
-    // Has right version of browser to use local stoage
-    if(localStorage.length > 0){
-        data.push({"label" : "Your name goes here"})
+    // Has right version of browser to use local storage
+    if(localStorage.length < 1){
+        // data.push({"label" : "Your name goes here"})
+        localStorage.setItem('first', 'Your name goes here');
     }
 }
 else{
     //can not keep info
 }
 var padding = {top:20, right:40, bottom:0, left:0},
-            w = 500 - padding.left - padding.right,
-            h = 500 - padding.top  - padding.bottom,
-            r = Math.min(w, h)/2,
-            rotation = 0,
-            oldrotation = 0,
-            picked = 100000,
-            oldpick = [],
-            color = d3.scale.category20(); //category20c()
-            //randomNumbers = getRandomNumbers();
+w = 500 - padding.left - padding.right,
+h = 500 - padding.top  - padding.bottom,
+r = Math.min(w, h)/2,
+rotation = 0,
+oldrotation = 0,
+picked = 100000,
+oldpick = [],
+color = d3.scale.category20(); //category20c()
+//randomNumbers = getRandomNumbers();
 
+for(var x = 0; x < localStorage.length; x++){
+    console.log("hi there");
+    // console.log(localStorage.getItem(localStorage.key(x)));
+}
 console.log(localStorage);
 console.log(localStorage.key(0));
+console.log(localStorage.length);
 
-
-// var data = [
-//     {"label": "Testing", "name": "This is what I want to say"},
-//     {"label": "Another", "name": "New Thang"}
-// ];
 var svg, container, vis, pie, arc, arcs;
 renderWheel();
 
+// Move info from localStorage into data
+function parseStorage(){
+    data = []
+    for(var x = 0; x < localStorage.length; x++){
+        data.push({"label" : localStorage.getItem(localStorage.key(x))});
+    }
+    console.log("just parsed");
+    console.log(data);
+    console.log(localStorage);
+}
 
+function removeExistingItem(key) {
+    if (localStorage.getItem(key) === null)
+        return false;
+    localStorage.removeItem(key);
+    return true;
+}
+
+// TODO figure this out
 function renderWheel(){
-    console.log(tester);
+    parseStorage();
     svg = d3.select('#chart')
         .append("svg")
         .data([data])
@@ -89,6 +111,7 @@ function renderWheel(){
         .attr("text-anchor", "end")
         .text( function(d, i) {
             return data[i].label;
+            // return localStorage.getItem(localStorage.key(i));
     });
 
     container.on("click", spin);
@@ -152,14 +175,15 @@ function spin(d){
     .attrTween("transform", rotTween)
     .each("end", function(){
         console.log("DONE SPINNING");
-        console.log(data[picked].name);
+        console.log(data[picked]);
         //mark slice as seen
         d3.select(".slice:nth-child(" + (picked + 1) + ") path")
             .attr("fill", "#111");
 
         //populate div
-        d3.select("#name h1")
-            .text(data[picked].label + " has to do the thing D:");
+        window.alert(data[picked].label + " Has to do the thing");
+        // d3.select("#name h1")
+        //     .text(data[picked].label + " has to do the thing D:");
 
         oldrotation = rotation;
 
@@ -176,41 +200,58 @@ function rotTween(to) {
 }
 
 function addPerson(){
-    console.log(localStorage);
     oldpick = [];
     var text = document.getElementById('add_text').value;
     console.log(text);
     if(text === ""){
-        document.querySelector("#notif").innerHTML = "Something went wrong";
+        document.querySelector("#notif").innerHTML = "Please insert something in the text box";
         return;
-    }
+    }  
     else{
         document.querySelector("#notif").innerHTML = "";
-    }      
+    } 
 
-    for(var x in data){
-        console.log(data[x]);
-        if(data[x].end || {} == "1")
-            data.pop();
+    // User is adding first name
+    if(localStorage.getItem("first") == "Your name goes here"){
+        localStorage.removeItem("first");
     }
+
     svg.remove();
-    data.push({"label": text, "name": "extra words"});
+    localStorage.setItem(text, text)
+    // data.push({"label": text, "name": "extra words"});
     renderWheel();
 }
 
 function deletePerson(){
     oldpick = [];
-    // svg.remove()
-    data.pop();
-    if(data.length == 0)
-        data.push({"label": "Your name goes here", "end": 1})
+    var text = document.getElementById('delete_text').value;
+    if(text === ""){
+        document.querySelector("#notif").innerHTML = "Please insert something in the text box";
+        return;
+    }
+    if(!removeExistingItem(text)){
+        document.querySelector("#notif").innerHTML = "That does not exist in wheel";
+        return;
+    }
+    else{
+        document.querySelector("#notif").innerHTML = "";
+    }
+    svg.remove();
+    console.log("hey are we getting here");
+    localStorage.removeItem(text);
+    if(localStorage.length == 0){
+        localStorage.setItem('first', 'Your name goes here');
+    }
     renderWheel();
 }
 
 function clearWheel(){
     localStorage.clear();
+    localStorage.setItem("first", "Your name goes here");
     data = []
+    svg.remove();
     renderWheel();
+
 }
 
 function getRandomNumbers(){
