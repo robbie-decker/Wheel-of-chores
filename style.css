@@ -1,53 +1,32 @@
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-
-.wheel{
-  height: 500px;
-  width: 500px;
-  background-color: darkkhaki;
-  border-radius: 50%;
-  display: block;
-  margin: auto;
-}
-
-circle{
-  fill: yellowgreen;
-  stroke: #655;
-  stroke-width: 20;
-} */
-
 text{
   font-family:Helvetica, Arial, sans-serif;
   font-size:11px;
   pointer-events:none;
 }
+
+.title{
+  text-align: center;
+}
+
 #chart{
-  position:absolute;
+  position:inline;
   width:500px;
   height:500px;
   top:10rem;
   left:0;
-  margin: 25rem, 0rem;
+  margin: auto;
 }
 #question{
-  position: absolute;
-  width:400px;
-  height:500px;
-  top:0;
-  left:520px;
+  position: inline;
+  margin: auto;
+  display: flex;
+  justify-content: center;
 }
 #question h1{
-  font-size: 50px;
+  font-size: 25px;
   font-weight: bold;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  position: absolute;
+  position: inline;
   padding: 0;
   margin: 0;
   top:50%;
@@ -55,6 +34,28 @@ text{
           transform:translate(0,-50%);
 }
 
-h1{
-  color: red;
+#notif{
+  text-align: center;
+  font-weight: bold;
+
+}
+
+#add{
+  flex: 1;
+}
+
+#delete{
+  flex: 1;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.button_container{
+  display: flex;
+  flex-direction: column;
+  height: 10rem;
 }
