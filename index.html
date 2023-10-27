@@ -11,23 +11,23 @@
     <h1 class="title">Wheel of Chores!</h1>
     <div id="question"><h1></h1></div>
     <div id="chart"></div>
+    <p id=notif></p>
     <div class="buttons">
       <div class="button_container">
         <button id="add">Add new person!</button>
         <input id="add_text" type="text">
       </div>
       <div class="button_container">
-        <button id="delete">Delete recent person!</button>
+        <button id="delete">Delete person!</button>
         <input id="delete_text" type="text">
       </div>
       <button id="clear">Remove everything</button>
       <div>
-        <input id="remove_on_spin" type="checkbox" default=0>
+        <input id="remove_on_spin" type="checkbox" checked="checked">
         <label for="remove_on_spin">Remove selected person</label>
       </div>
-      <button id="restart">Restart</button>
+      <button id="reset">Reset</button>
     </div>
-    <p id=notif></p>
     <p id="tester"></p>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="module" src="/main.js"></script>

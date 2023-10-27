@@ -8,6 +8,7 @@ var add = document.getElementById('add')
 add.onclick = function(){addPerson()};
 document.getElementById('delete').onclick = function(){deletePerson()};
 document.getElementById('clear').onclick = function(){clearWheel()};
+document.getElementById('reset').onclick = function(){resetWheel()};
 
 
 add.addEventListener("keypress", function(event){
@@ -137,10 +138,12 @@ function renderWheel(){
     .attr("r", 60)
     .style({"fill":"white"})
     .on("mouseover", function() {
-        d3.select(this).style({"stroke":"black", "stroke-width":"3", "scale":'1.1'}); // Change the background color to red on hover
+        // Change the background color to red on hover
+        d3.select(this).style({"stroke":"black", "stroke-width":"3",
+         "scale":'1.1', "transition": 'all .2s ease-in-out'});
     })
     .on("mouseout", function() {
-        d3.select(this).style({"fill":"white", "stroke":"none", "scale":"1"}); // Restore the background color to white on mouseout
+        d3.select(this).style({"fill":"white", "stroke":"none", "scale":"1", "transition": 'all .5s ease-out'}); // Restore the background color to white on mouseout
     });
 
     //spin text
@@ -171,24 +174,36 @@ function spin(d){
 
     picked = Math.round(data.length - (rotation % 360)/ps);
     picked = picked >= data.length ? (picked % data.length) : picked;
+    
+    // Figure out if user wants to remove slice or not
+    const removeOption = document.getElementById("remove_on_spin")
 
-
-    if(oldpick.indexOf(picked) !== -1){
-        d3.select(this).call(spin);
-        return;
-    } else {
-        oldpick.push(picked);
+    // Okay. I think this is really bad
+    // If it does not find a new slice it recursively will call this function
+    // This is a garbage way to do this but I am too scared to change things :))
+    
+    if(removeOption.checked){
+        if(oldpick.indexOf(picked) !== -1){
+            d3.select(this).call(spin);
+            console.log("REPICK");
+            return;
+        } else {
+            oldpick.push(picked);
+        }
     }
 
     rotation += 90 - Math.round(ps/2);
+
 
     vis.transition()
     .duration(3000)
     .attrTween("transform", rotTween)
     .each("end", function(){
         //mark slice as seen
-        d3.select(".slice:nth-child(" + (picked + 1) + ") path")
-            .attr("fill", "#111");
+        if(removeOption.checked){
+            d3.select(".slice:nth-child(" + (picked + 1) + ") path")
+                .attr("fill", "#111");
+        }
 
         //populate div
         window.alert(data[picked].label + " Has to do the thing");
@@ -210,7 +225,6 @@ function rotTween(to) {
 }
 
 function addPerson(){
-    oldpick = [];
     var text = document.getElementById('add_text').value;
     console.log(text);
     if(text === ""){
@@ -233,14 +247,13 @@ function addPerson(){
 }
 
 function deletePerson(){
-    oldpick = [];
     var text = document.getElementById('delete_text').value;
     if(text === ""){
         document.querySelector("#notif").innerHTML = "Please insert something in the text box";
         return;
     }
     if(!removeExistingItem(text)){
-        document.querySelector("#notif").innerHTML = "That does not exist in wheel";
+        document.querySelector("#notif").innerHTML = "That does not exist in the wheel";
         return;
     }
     else{
@@ -255,13 +268,18 @@ function deletePerson(){
     renderWheel();
 }
 
+function resetWheel(){
+
+}
+
 function clearWheel(){
     localStorage.clear();
     localStorage.setItem("first", "Your name goes here");
     data = []
+    // remove wheel
     svg.remove();
+    // rerender the wheel
     renderWheel();
-
 }
 
 function getRandomNumbers(){
