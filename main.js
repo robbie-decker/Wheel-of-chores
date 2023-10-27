@@ -104,12 +104,16 @@ function renderWheel(){
         .attr("d", function (d) { return arc(d); })
         .on("mouseover", function(e) {
             // Change the background color to red on hover
-            d3.select(this).style({"stroke":"black", "stroke-width":'2', "scale":"1.05"});
-            console.log(e);
+            d3.select(this).style({"stroke":"black", "stroke-width":'2',
+             "scale":"1.05", "transition": 'all .2s ease-in-out'});
+            // TODO: add delete functionality by click on slice
+             // Want to get data here
+            // console.log(e);
         })
         .on("mouseout", function() {
             // Change the background color to red on hover
-            d3.select(this).style({"stroke":"none", "scale":"1"});
+            d3.select(this).style({"stroke":"none", "scale":"1",
+            "transition": 'all .5s ease-out'});
         });
 
 
@@ -118,7 +122,8 @@ function renderWheel(){
             d.innerRadius = 0;
             d.outerRadius = r;
             d.angle = (d.startAngle + d.endAngle)/2;
-            return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
+            console.log(d);
+            return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -80) +")";
         })
         .attr("text-anchor", "end")
         .text( function(d, i) {
@@ -191,7 +196,7 @@ function spin(d){
     // Figure out if user wants to remove slice or not
     const removeOption = document.getElementById("remove_on_spin")
 
-    // Okay. I think this is really bad
+    // FIXME: Okay. I think this is really bad
     // If it does not find a new slice it recursively will call this function
     // This is a garbage way to do this but I am too scared to change things :))
     
