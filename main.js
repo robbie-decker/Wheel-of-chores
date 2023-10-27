@@ -29,7 +29,7 @@ if (typeof(Storage) !== "undefined"){
 else{
     //can not keep info
 }
-var padding = {top:20, right:40, bottom:0, left:0},
+var padding = {top:20, right:20, bottom:20, left:20},
 w = 500 - padding.left - padding.right,
 h = 500 - padding.top  - padding.bottom,
 r = Math.min(w, h)/2,
@@ -101,7 +101,17 @@ function renderWheel(){
 
     arcs.append("path")
         .attr("fill", function(d, i){ return color(i); })
-        .attr("d", function (d) { return arc(d); });
+        .attr("d", function (d) { return arc(d); })
+        .on("mouseover", function(e) {
+            // Change the background color to red on hover
+            d3.select(this).style({"stroke":"black", "stroke-width":'2', "scale":"1.05"});
+            console.log(e);
+        })
+        .on("mouseout", function() {
+            // Change the background color to red on hover
+            d3.select(this).style({"stroke":"none", "scale":"1"});
+        });
+
 
     // add the text
     arcs.append("text").attr("transform", function(d){
@@ -143,7 +153,9 @@ function renderWheel(){
          "scale":'1.1', "transition": 'all .2s ease-in-out'});
     })
     .on("mouseout", function() {
-        d3.select(this).style({"fill":"white", "stroke":"none", "scale":"1", "transition": 'all .5s ease-out'}); // Restore the background color to white on mouseout
+        // Restore the background color to white on mouseout
+        d3.select(this).style({"fill":"white", "stroke":"none",
+         "scale":"1", "transition": 'all .5s ease-out'});
     })
     .on("click", spin);
 
@@ -158,6 +170,7 @@ function renderWheel(){
 
 function spin(d){
     container.on("click", null);
+    arcs.on("mouseover", null);
 
     //all slices have been seen, all done
     console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
