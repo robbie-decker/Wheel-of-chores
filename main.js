@@ -115,6 +115,13 @@ function renderWheel(){
     });
 
     container.on("click", spin);
+    container.on("mouseover", () => {
+        console.log("we are hovering");
+    });
+    const test = d3.select("#tester")
+    test.on("mouseover", () =>{
+        console.log("testing now");
+    });
 
         //make arrow
     svg.append("g")
@@ -128,7 +135,13 @@ function renderWheel(){
     .attr("cx", 0)
     .attr("cy", 0)
     .attr("r", 60)
-    .style({"fill":"white"});
+    .style({"fill":"white"})
+    .on("mouseover", function() {
+        d3.select(this).style({"stroke":"black", "stroke-width":"3", "scale":'1.1'}); // Change the background color to red on hover
+    })
+    .on("mouseout", function() {
+        d3.select(this).style({"fill":"white", "stroke":"none", "scale":"1"}); // Restore the background color to white on mouseout
+    });
 
     //spin text
     container.append("text")
