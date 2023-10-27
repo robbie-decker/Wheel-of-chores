@@ -128,8 +128,7 @@ function renderWheel(){
     .attr("cx", 0)
     .attr("cy", 0)
     .attr("r", 60)
-    .style({"fill":"white","cursor":"crosshair"});
-    // I am a big fan of the COD crosshair on the button
+    .style({"fill":"white"});
 
     //spin text
     container.append("text")
@@ -174,8 +173,6 @@ function spin(d){
     .duration(3000)
     .attrTween("transform", rotTween)
     .each("end", function(){
-        console.log("DONE SPINNING");
-        console.log(data[picked]);
         //mark slice as seen
         d3.select(".slice:nth-child(" + (picked + 1) + ") path")
             .attr("fill", "#111");

@@ -8,10 +8,9 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <h1 class="title">Here is the title</h1>
+    <h1 class="title">Wheel of Chores!</h1>
     <div id="question"><h1></h1></div>
     <div id="chart"></div>
-    <!-- <div id="form"></div> -->
     <div class="buttons">
       <div class="button_container">
         <button id="add">Add new person!</button>
@@ -22,6 +21,11 @@
         <input id="delete_text" type="text">
       </div>
       <button id="clear">Remove everything</button>
+      <div>
+        <input id="remove_on_spin" type="checkbox" default=0>
+        <label for="remove_on_spin">Remove selected person</label>
+      </div>
+      <button id="restart">Restart</button>
     </div>
     <p id=notif></p>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
