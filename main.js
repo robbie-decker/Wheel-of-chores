@@ -71,6 +71,7 @@ function removeExistingItem(key) {
 
 // TODO figure this out
 function renderWheel(){
+    oldpick = [];
     parseStorage();
     svg = d3.select('#chart')
         .append("svg")
@@ -115,7 +116,6 @@ function renderWheel(){
             // return localStorage.getItem(localStorage.key(i));
     });
 
-    container.on("click", spin);
     container.on("mouseover", () => {
         console.log("we are hovering");
     });
@@ -144,7 +144,8 @@ function renderWheel(){
     })
     .on("mouseout", function() {
         d3.select(this).style({"fill":"white", "stroke":"none", "scale":"1", "transition": 'all .5s ease-out'}); // Restore the background color to white on mouseout
-    });
+    })
+    .on("click", spin);
 
     //spin text
     container.append("text")
@@ -162,7 +163,6 @@ function spin(d){
     console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
     if(oldpick.length == data.length){
         console.log("done");
-        container.on("click", null);
         return;
     }
 
@@ -199,20 +199,18 @@ function spin(d){
     .duration(3000)
     .attrTween("transform", rotTween)
     .each("end", function(){
-        //mark slice as seen
+        //mark slice as seen only if that option is selected
         if(removeOption.checked){
             d3.select(".slice:nth-child(" + (picked + 1) + ") path")
                 .attr("fill", "#111");
         }
 
         //populate div
-        window.alert(data[picked].label + " Has to do the thing");
+        window.alert(data[picked].label + " has to do the thing");
         // d3.select("#name h1")
         //     .text(data[picked].label + " has to do the thing D:");
 
         oldrotation = rotation;
-
-        container.on("click", spin);
     });
 }
 
@@ -269,7 +267,8 @@ function deletePerson(){
 }
 
 function resetWheel(){
-
+    svg.remove();
+    renderWheel();
 }
 
 function clearWheel(){
