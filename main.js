@@ -9,6 +9,7 @@ add.onclick = function(){addPerson()};
 document.getElementById('delete').onclick = function(){deletePerson()};
 document.getElementById('clear').onclick = function(){clearWheel()};
 document.getElementById('reset').onclick = function(){resetWheel()};
+var allowHover = true;
 
 
 add.addEventListener("keypress", function(event){
@@ -103,17 +104,20 @@ function renderWheel(){
         .attr("fill", function(d, i){ return color(i); })
         .attr("d", function (d) { return arc(d); })
         .on("mouseover", function(e) {
-            // Change the background color to red on hover
-            d3.select(this).style({"stroke":"black", "stroke-width":'2',
-             "scale":"1.05", "transition": 'all .2s ease-in-out'});
-            // TODO: add delete functionality by click on slice
-             // Want to get data here
-            // console.log(e);
+            if (allowHover){
+                d3.select(this).style({"stroke":"black", "stroke-width":'2',
+                 "scale":"1.05", "transition": 'all .2s ease-in-out'});
+                // TODO: add delete functionality by click on slice
+                 // Want to get data here
+                // console.log(e);
+            }
         })
         .on("mouseout", function() {
-            // Change the background color to red on hover
-            d3.select(this).style({"stroke":"none", "scale":"1",
-            "transition": 'all .5s ease-out'});
+            if (allowHover){
+                // Change the background color to red on hover
+                d3.select(this).style({"stroke":"none", "scale":"1",
+                "transition": 'all .5s ease-out'});
+            }
         });
 
 
@@ -175,7 +179,9 @@ function renderWheel(){
 
 function spin(d){
     container.on("click", null);
-    arcs.on("mouseover", null);
+    
+    allowHover = false;
+    // arcs.on("mouseover", null);
 
     //all slices have been seen, all done
     console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
@@ -220,14 +226,16 @@ function spin(d){
         //mark slice as seen only if that option is selected
         if(removeOption.checked){
             d3.select(".slice:nth-child(" + (picked + 1) + ") path")
-                .attr("fill", "#111");
+            .attr("fill", "#111");
         }
-
+        
         //populate div
         window.alert(data[picked].label + " has to do the thing");
         // d3.select("#name h1")
         //     .text(data[picked].label + " has to do the thing D:");
-
+        
+        // allow slices to be hoverable again
+        allowHover = true;
         oldrotation = rotation;
     });
 }
