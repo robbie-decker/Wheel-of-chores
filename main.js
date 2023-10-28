@@ -24,7 +24,7 @@ if (typeof(Storage) !== "undefined"){
     // Has right version of browser to use local storage
     if(localStorage.length < 1){
         // data.push({"label" : "Your name goes here"})
-        localStorage.setItem('first', 'Your name goes here');
+        localStorage.setItem('first', 'Name goes here');
     }
 }
 else{
@@ -118,6 +118,9 @@ function renderWheel(){
                 d3.select(this).style({"stroke":"none", "scale":"1",
                 "transition": 'all .5s ease-out'});
             }
+        })
+        .on("click", function(e){
+            
         });
 
 
@@ -127,7 +130,7 @@ function renderWheel(){
             d.outerRadius = r;
             d.angle = (d.startAngle + d.endAngle)/2;
             console.log(d);
-            return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -80) +")";
+            return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -20) +")";
         })
         .attr("text-anchor", "end")
         .text( function(d, i) {
@@ -260,7 +263,7 @@ function addPerson(){
     } 
 
     // User is adding first name
-    if(localStorage.getItem("first") == "Your name goes here"){
+    if(localStorage.getItem("first") == "Name goes here"){
         localStorage.removeItem("first");
     }
 
@@ -287,7 +290,7 @@ function deletePerson(){
     console.log("hey are we getting here");
     localStorage.removeItem(text);
     if(localStorage.length == 0){
-        localStorage.setItem('first', 'Your name goes here');
+        localStorage.setItem('first', 'Name goes here');
     }
     renderWheel();
 }
@@ -299,7 +302,7 @@ function resetWheel(){
 
 function clearWheel(){
     localStorage.clear();
-    localStorage.setItem("first", "Your name goes here");
+    localStorage.setItem("first", "Name goes here");
     data = []
     // remove wheel
     svg.remove();
