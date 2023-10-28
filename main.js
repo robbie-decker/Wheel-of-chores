@@ -21,7 +21,7 @@ add.onclick = function(){addPerson()};
 document.getElementById('delete').onclick = function(){deletePerson()};
 document.getElementById('clear').onclick = function(){clearWheel()};
 document.getElementById('reset').onclick = function(){resetWheel()};
-var allowHover = true;
+var spinning = false;
 
 
 add.addEventListener("keypress", function(event){
@@ -116,23 +116,28 @@ function renderWheel(){
         .attr("fill", function(d, i){ return color(i); })
         .attr("d", function (d) { return arc(d); })
         .on("mouseover", function(e) {
-            if (allowHover){
+            if (!spinning){
                 d3.select(this).style({"stroke":"black", "stroke-width":'2',
                  "scale":"1.05", "transition": 'all .2s ease-in-out'});
-                // TODO: add delete functionality by click on slice
                  // Want to get data here
                 // console.log(e);
             }
         })
         .on("mouseout", function() {
-            if (allowHover){
+            if (!spinning){
                 // Change the background color to red on hover
                 d3.select(this).style({"stroke":"none", "scale":"1",
                 "transition": 'all .5s ease-out'});
             }
         })
+        // TODO: add delete functionality by click on slice
         .on("click", function(e){
-            
+            if (!spinning){
+                MicroModal.show('modal-1'); // [1]
+                let previous_name = e.data['label'];
+                document.getElementById('slice_name_input').value = previous_name;
+                
+            }
         });
 
 
@@ -195,7 +200,7 @@ function renderWheel(){
 function spin(d){
     container.on("click", null);
     
-    allowHover = false;
+    spinning = true;
     // arcs.on("mouseover", null);
 
     //all slices have been seen, all done
@@ -249,8 +254,8 @@ function spin(d){
         // d3.select("#name h1")
         //     .text(data[picked].label + " has to do the thing D:");
         
-        // allow slices to be hoverable again
-        allowHover = true;
+        // allow slices to be hoverable/ clickable again
+        spinning = false;
         oldrotation = rotation;
     });
 }
@@ -267,11 +272,11 @@ function addPerson(){
     var text = document.getElementById('add_text').value;
     console.log(text);
     if(text === ""){
-        document.querySelector("#notif").innerHTML = "Please insert something in the text box";
+        document.querySelector("#notif").textContent = "Please insert something in the text box";
         return;
     }  
     else{
-        document.querySelector("#notif").innerHTML = "";
+        document.querySelector("#notif").textContent = "";
     } 
 
     // User is adding first name
@@ -288,15 +293,15 @@ function addPerson(){
 function deletePerson(){
     var text = document.getElementById('delete_text').value;
     if(text === ""){
-        document.querySelector("#notif").innerHTML = "Please insert something in the text box";
+        document.querySelector("#notif").textContent = "Please insert something in the text box";
         return;
     }
     if(!removeExistingItem(text)){
-        document.querySelector("#notif").innerHTML = "That does not exist in the wheel";
+        document.querySelector("#notif").textContent = "That does not exist in the wheel";
         return;
     }
     else{
-        document.querySelector("#notif").innerHTML = "";
+        document.querySelector("#notif").textContent = "";
     }
     svg.remove();
     console.log("hey are we getting here");
