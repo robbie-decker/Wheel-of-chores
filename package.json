@@ -9,6 +9,7 @@
     "vite": "^2.3.5"
   },
   "dependencies": {
+    "micromodal": "^0.4.10",
     "proton-engine": "^5.4.3"
   }
 }
