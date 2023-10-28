@@ -1,5 +1,17 @@
 import './style.css';
 import Proton from "proton-engine";
+import MicroModal from 'micromodal';  // es6 module
+
+
+MicroModal.init({
+    awaitCloseAnimation: true,// set to false, to remove close animation
+    onShow: function(modal) {
+      console.log("micromodal open");
+    },
+    onClose: function(modal) {
+      console.log("micromodal close");
+    }
+  });
 
 // import * as d3 from "d3";
 
