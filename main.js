@@ -1,8 +1,10 @@
 import './style.css';
 import Proton from "proton-engine";
 import MicroModal from 'micromodal';  // es6 module
+// import * as d3 from "d3";
 
 
+// Initialize the modal
 MicroModal.init({
     awaitCloseAnimation: true,// set to false, to remove close animation
     onShow: function(modal) {
@@ -13,7 +15,6 @@ MicroModal.init({
     }
   });
 
-// import * as d3 from "d3";
 
 // Get my buttons
 var add = document.getElementById('add') 
@@ -22,6 +23,30 @@ document.getElementById('delete').onclick = function(){deletePerson()};
 document.getElementById('clear').onclick = function(){clearWheel()};
 document.getElementById('reset').onclick = function(){resetWheel()};
 var spinning = false;
+var selected_slice = null;
+
+// Add event listener to the "Save" button inside the modal
+document.querySelector('.modal__footer .save').addEventListener('click', function() {
+    console.log("here");
+    // Get the updated text from the input field inside the modal
+    var updatedText = document.getElementById('slice_name_input').value;
+    
+    // Check if the picked variable is valid
+    if (picked >= 0 && picked < data.length) {
+        // Update the label of the selected slice with the new text
+        localStorage.remove(selected_slice);
+        localStorage.setItem(updatedText, updatedText);
+        parseStorage();
+        
+        // Update the text inside the SVG slice
+        d3.select(".slice:nth-child(" + (picked + 1) + ") text")
+            .text(updatedText);
+        
+        // Close the modal
+        MicroModal.close('modal-1');
+    }
+    console.log("picked", picked);
+});
 
 
 add.addEventListener("keypress", function(event){
@@ -82,7 +107,7 @@ function removeExistingItem(key) {
     return true;
 }
 
-// TODO figure this out
+// TODO: figure this out
 function renderWheel(){
     oldpick = [];
     parseStorage();
@@ -130,13 +155,14 @@ function renderWheel(){
                 "transition": 'all .5s ease-out'});
             }
         })
-        // TODO: add delete functionality by click on slice
+        // TODO: add edit/ delete functionality by click on slice
         .on("click", function(e){
             if (!spinning){
                 MicroModal.show('modal-1'); // [1]
-                let previous_name = e.data['label'];
-                document.getElementById('slice_name_input').value = previous_name;
-                
+                selected_slice = e.data['label'];
+                document.getElementById('slice_name_input').value = selected_slice;
+                console.log(data);
+                console.log(localStorage);
             }
         });
 
@@ -155,15 +181,7 @@ function renderWheel(){
             // return localStorage.getItem(localStorage.key(i));
     });
 
-    container.on("mouseover", () => {
-        console.log("we are hovering");
-    });
-    const test = d3.select("#tester")
-    test.on("mouseover", () =>{
-        console.log("testing now");
-    });
-
-        //make arrow
+    //make arrow
     svg.append("g")
     .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
     .append("path")
@@ -199,9 +217,7 @@ function renderWheel(){
 
 function spin(d){
     container.on("click", null);
-    
     spinning = true;
-    // arcs.on("mouseover", null);
 
     //all slices have been seen, all done
     console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
@@ -310,6 +326,10 @@ function deletePerson(){
         localStorage.setItem('first', 'Name goes here');
     }
     renderWheel();
+}
+
+function editPerson(){
+    
 }
 
 function resetWheel(){
