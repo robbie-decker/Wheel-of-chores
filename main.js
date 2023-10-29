@@ -78,7 +78,7 @@ oldpick = [],
 color = d3.scale.category20(); //category20c()
 //randomNumbers = getRandomNumbers();
 
-var svg, container, vis, pie, arc, arcs;
+var svg, container, vis, spinButton, pie, arc, arcs;
 renderWheel();
 
 
@@ -125,16 +125,18 @@ function renderWheel(){
         .attr("d", function (d) { return arc(d); })
         .on("mouseover", function(e) {
             if (!spinning){
-                d3.select(this).style({"stroke":"black", "stroke-width":'2',
-                 "scale":"1.05", "transition": 'all .2s ease-in-out'});
+                d3.select(this.parentNode).style({"scale":"1.05", "transition": 'all .2s ease-in-out'});
+                d3.select(this).style({"stroke":"black", "stroke-width":'2'});
+
+                d3.select(this.parentNode).raise();
                  // Want to get data here
             }
         })
         .on("mouseout", function() {
             if (!spinning){
                 // Change the background color to red on hover
-                d3.select(this).style({"stroke":"none", "scale":"1",
-                "transition": 'all .5s ease-out'});
+                d3.select(this.parentNode).style({"scale":"1", "transition": 'all .5s ease-out'});
+                d3.select(this).style({"stroke":"none"});
             }
         })
         // TODO: add edit/ delete functionality by click on slice
@@ -168,6 +170,8 @@ function renderWheel(){
     .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
     .style({"fill":"black"});
 
+
+
     //draw spin circle
     container.append("circle")
     .attr("cx", 0)
@@ -176,13 +180,13 @@ function renderWheel(){
     .style({"fill":"white"})
     .on("mouseover", function() {
         // Change the background color to red on hover
-        d3.select(this).style({"stroke":"black", "stroke-width":"3",
-         "scale":'1.1', "transition": 'all .2s ease-in-out'});
+        d3.select(this.parentNode).style({"scale":'1.1', "transition": 'all .2s ease-in-out'});
+        d3.select(this).style({"stroke":"black", "stroke-width":"3"});
     })
     .on("mouseout", function() {
         // Restore the background color to white on mouseout
-        d3.select(this).style({"fill":"white", "stroke":"none",
-         "scale":"1", "transition": 'all .5s ease-out'});
+        d3.select(this.parentNode).style({"scale":"1", "transition": 'all .5s ease-out'})
+        d3.select(this).style({"stroke":"none"});
     })
     .on("click", spin);
 
