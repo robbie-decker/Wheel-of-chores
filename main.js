@@ -171,9 +171,12 @@ function renderWheel(){
     .style({"fill":"black"});
 
 
+    // Make group for spin button
+    vis = container
+        .append("g");
 
     //draw spin circle
-    container.append("circle")
+    vis.append("circle")
     .attr("cx", 0)
     .attr("cy", 0)
     .attr("r", 60)
@@ -191,7 +194,7 @@ function renderWheel(){
     .on("click", spin);
 
     //spin text
-    container.append("text")
+    vis.append("text")
     .attr("x", 0)
     .attr("y", 15)
     .attr("text-anchor", "middle")
