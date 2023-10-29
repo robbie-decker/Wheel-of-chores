@@ -27,28 +27,22 @@ var selected_slice = null;
 
 // Add event listener to the "Save" button inside the modal
 document.querySelector('.modal__footer .save').addEventListener('click', function() {
-    console.log("here");
     // Get the updated text from the input field inside the modal
+    var data = localStorage.getObj('data');
     var updatedText = document.getElementById('slice_name_input').value;
     let selected_index = data.indexOf(selected_slice);
     // Check if the picked variable is valid
     if (selected_index >= 0 && selected_index < data.length) {
         // Update the label of the selected slice with the new text
-        // Don't want to remove and then append
-        // TODO: change localstorage to use an array rather than a single object
-        localStorage.removeItem(selected_slice);
-        localStorage.setItem(updatedText, updatedText);
-        // FIXME: After spinning, the picked value is not correct
-        // Update the text inside the SVG slice
-        // d3.select(".slice:nth-child(" + (selected_index + 1) + ") text")
-        //     .text(updatedText);
+        data[selected_index] = updatedText
+        localStorage.setObj('data', data);
 
+        // TODO: in a perfect world this would not reset and rerender the wheel but for times sake, I am using it
         resetWheel();
         
         // Close the modal
         MicroModal.close('modal-1');
     }
-    console.log("picked", selected_index);
 });
 
 
@@ -134,7 +128,6 @@ function renderWheel(){
                 d3.select(this).style({"stroke":"black", "stroke-width":'2',
                  "scale":"1.05", "transition": 'all .2s ease-in-out'});
                  // Want to get data here
-                // console.log(e);
             }
         })
         .on("mouseout", function() {
@@ -150,9 +143,6 @@ function renderWheel(){
                 MicroModal.show('modal-1'); // [1]
                 selected_slice = e.data;
                 document.getElementById('slice_name_input').value = selected_slice;
-                console.log(e);
-                console.log(data);
-                console.log(localStorage);
             }
         });
 
@@ -279,25 +269,30 @@ function rotTween(to) {
 
 function addPerson(){
     var text = document.getElementById('add_text').value;
-    console.log(text);
+    var data = localStorage.getObj('data');
+    const notification = document.querySelector("#notif");
     if(text === ""){
-        document.querySelector("#notif").textContent = "Please insert something in the text box";
+        notification.textContent = "Please insert something in the text box";
         return;
     }  
+    else if(data.includes(text)){
+        notification.textContent = "Duplicate name. Try entering something else";
+        return;
+    }
     else{
-        document.querySelector("#notif").textContent = "";
+        notification.textContent = "";
     } 
 
     // User is adding first name
-    if(localStorage.getObj("data")[0] == "Name goes here"){
-        localStorage.removeItem("data");
+    if(data[0] == "Name goes here"){
+        data[0] = text;
+    }
+    else{
+        data.push(text);
     }
 
-    svg.remove();
-    var data = localStorage.getObj('data');
-    data.push(text);
     localStorage.setObj('data', data);
-    // data.push({"label": text, "name": "extra words"});
+    svg.remove();
     renderWheel();
 }
 
