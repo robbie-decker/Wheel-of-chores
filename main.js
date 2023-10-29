@@ -30,22 +30,26 @@ document.querySelector('.modal__footer .save').addEventListener('click', functio
     console.log("here");
     // Get the updated text from the input field inside the modal
     var updatedText = document.getElementById('slice_name_input').value;
-    
+    let selected_index = data.indexOf(selected_slice);
     // Check if the picked variable is valid
-    if (picked >= 0 && picked < data.length) {
+    if (selected_index >= 0 && selected_index < data.length) {
         // Update the label of the selected slice with the new text
-        localStorage.remove(selected_slice);
+        // Don't want to remove and then append
+        // TODO: change localstorage to use an array rather than a single object
+        localStorage.removeItem(selected_slice);
         localStorage.setItem(updatedText, updatedText);
         parseStorage();
-        
+        // FIXME: After spinning, the picked value is not correct
         // Update the text inside the SVG slice
-        d3.select(".slice:nth-child(" + (picked + 1) + ") text")
-            .text(updatedText);
+        // d3.select(".slice:nth-child(" + (selected_index + 1) + ") text")
+        //     .text(updatedText);
+
+        resetWheel();
         
         // Close the modal
         MicroModal.close('modal-1');
     }
-    console.log("picked", picked);
+    console.log("picked", selected_index);
 });
 
 
@@ -93,7 +97,7 @@ renderWheel();
 function parseStorage(){
     data = []
     for(var x = 0; x < localStorage.length; x++){
-        data.push({"label" : localStorage.getItem(localStorage.key(x))});
+        data.push(localStorage.getItem(localStorage.key(x)));
     }
     console.log("just parsed");
     console.log(data);
@@ -159,8 +163,9 @@ function renderWheel(){
         .on("click", function(e){
             if (!spinning){
                 MicroModal.show('modal-1'); // [1]
-                selected_slice = e.data['label'];
+                selected_slice = e.data;
                 document.getElementById('slice_name_input').value = selected_slice;
+                console.log(e);
                 console.log(data);
                 console.log(localStorage);
             }
@@ -177,7 +182,7 @@ function renderWheel(){
         })
         .attr("text-anchor", "end")
         .text( function(d, i) {
-            return data[i].label;
+            return data[i];
             // return localStorage.getItem(localStorage.key(i));
     });
 
@@ -266,13 +271,16 @@ function spin(d){
         }
         
         //populate div
-        window.alert(data[picked].label + " has to do the thing");
+        window.alert(data[picked] + " has to do the thing");
         // d3.select("#name h1")
         //     .text(data[picked].label + " has to do the thing D:");
         
         // allow slices to be hoverable/ clickable again
         spinning = false;
         oldrotation = rotation;
+
+        console.log(data);
+        console.log(localStorage);
     });
 }
 
