@@ -38,7 +38,6 @@ document.querySelector('.modal__footer .save').addEventListener('click', functio
         // TODO: change localstorage to use an array rather than a single object
         localStorage.removeItem(selected_slice);
         localStorage.setItem(updatedText, updatedText);
-        parseStorage();
         // FIXME: After spinning, the picked value is not correct
         // Update the text inside the SVG slice
         // d3.select(".slice:nth-child(" + (selected_index + 1) + ") text")
@@ -60,17 +59,20 @@ add.addEventListener("keypress", function(event){
         add.click();
     }
 });
-var data = []
-if (typeof(Storage) !== "undefined"){
-    // Has right version of browser to use local storage
-    if(localStorage.length < 1){
-        // data.push({"label" : "Your name goes here"})
-        localStorage.setItem('first', 'Name goes here');
-    }
+// Add defualt handling of array/ objects to localStorage
+Storage.prototype.setObj = function(key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
 }
-else{
-    //can not keep info
+Storage.prototype.getObj = function(key) {
+    return JSON.parse(this.getItem(key))
 }
+
+// Has right version of browser to use local storage
+if(localStorage.length < 1){
+    localStorage.setObj('data', ['Name goes here']);
+}
+
+
 var padding = {top:20, right:20, bottom:20, left:20},
 w = 500 - padding.left - padding.right,
 h = 500 - padding.top  - padding.bottom,
@@ -82,27 +84,9 @@ oldpick = [],
 color = d3.scale.category20(); //category20c()
 //randomNumbers = getRandomNumbers();
 
-for(var x = 0; x < localStorage.length; x++){
-    console.log("hi there");
-    // console.log(localStorage.getItem(localStorage.key(x)));
-}
-console.log(localStorage);
-console.log(localStorage.key(0));
-console.log(localStorage.length);
-
 var svg, container, vis, pie, arc, arcs;
 renderWheel();
 
-// Move info from localStorage into data
-function parseStorage(){
-    data = []
-    for(var x = 0; x < localStorage.length; x++){
-        data.push(localStorage.getItem(localStorage.key(x)));
-    }
-    console.log("just parsed");
-    console.log(data);
-    console.log(localStorage);
-}
 
 function removeExistingItem(key) {
     if (localStorage.getItem(key) === null)
@@ -114,7 +98,8 @@ function removeExistingItem(key) {
 // TODO: figure this out
 function renderWheel(){
     oldpick = [];
-    parseStorage();
+    var data = localStorage.getObj('data');
+    console.log(data);
     svg = d3.select('#chart')
         .append("svg")
         .data([data])
@@ -223,7 +208,7 @@ function renderWheel(){
 function spin(d){
     container.on("click", null);
     spinning = true;
-
+    var data = localStorage.getObj('data');
     //all slices have been seen, all done
     console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
     if(oldpick.length == data.length){
@@ -304,12 +289,14 @@ function addPerson(){
     } 
 
     // User is adding first name
-    if(localStorage.getItem("first") == "Name goes here"){
-        localStorage.removeItem("first");
+    if(localStorage.getObj("data")[0] == "Name goes here"){
+        localStorage.removeItem("data");
     }
 
     svg.remove();
-    localStorage.setItem(text, text)
+    var data = localStorage.getObj('data');
+    data.push(text);
+    localStorage.setObj('data', data);
     // data.push({"label": text, "name": "extra words"});
     renderWheel();
 }
@@ -329,6 +316,7 @@ function deletePerson(){
     }
     svg.remove();
     console.log("hey are we getting here");
+    var data = localStorage.getObj('data');
     localStorage.removeItem(text);
     if(localStorage.length == 0){
         localStorage.setItem('first', 'Name goes here');
@@ -347,8 +335,7 @@ function resetWheel(){
 
 function clearWheel(){
     localStorage.clear();
-    localStorage.setItem("first", "Name goes here");
-    data = []
+    localStorage.setObj("data", ["Name goes here"]);
     // remove wheel
     svg.remove();
     // rerender the wheel
