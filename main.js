@@ -19,31 +19,15 @@ MicroModal.init({
 // Get my buttons
 var add = document.getElementById('add') 
 add.onclick = function(){addPerson()};
+// Add event listener for the "DELETE" button in the modal
 document.getElementById('delete').onclick = function(){deletePerson()};
+// Add event listener to the "Save" button inside the modal
+document.getElementById('save').onclick = function(){editPerson()};
 document.getElementById('clear').onclick = function(){clearWheel()};
 document.getElementById('reset').onclick = function(){resetWheel()};
 var spinning = false;
 var selected_slice = null;
 
-// Add event listener to the "Save" button inside the modal
-document.querySelector('.modal__footer .save').addEventListener('click', function() {
-    // Get the updated text from the input field inside the modal
-    var data = localStorage.getObj('data');
-    var updatedText = document.getElementById('slice_name_input').value;
-    let selected_index = data.indexOf(selected_slice);
-    // Check if the picked variable is valid
-    if (selected_index >= 0 && selected_index < data.length) {
-        // Update the label of the selected slice with the new text
-        data[selected_index] = updatedText
-        localStorage.setObj('data', data);
-
-        // TODO: in a perfect world this would not reset and rerender the wheel but for times sake, I am using it
-        resetWheel();
-        
-        // Close the modal
-        MicroModal.close('modal-1');
-    }
-});
 
 
 add.addEventListener("keypress", function(event){
@@ -153,7 +137,7 @@ function renderWheel(){
                 d3.select(this).style({"stroke":"none"});
             }
         })
-        // TODO: add edit/ delete functionality by click on slice
+        // TODO: add delete functionality by click on slice
         .on("click", function(e){
             if (!spinning){
                 MicroModal.show('modal-1'); // [1]
@@ -341,7 +325,23 @@ function deletePerson(){
 }
 
 function editPerson(){
-    
+    console.log('is this happening?');
+    // Get the updated text from the input field inside the modal
+    var data = localStorage.getObj('data');
+    var updatedText = document.getElementById('slice_name_input').value;
+    let selected_index = data.indexOf(selected_slice);
+    // Check if the picked variable is valid
+    if (selected_index >= 0 && selected_index < data.length) {
+        // Update the label of the selected slice with the new text
+        data[selected_index] = updatedText
+        localStorage.setObj('data', data);
+
+        // TODO: in a perfect world this would not reset and rerender the wheel but for times sake, I am using it
+        resetWheel();
+        
+        // Close the modal
+        MicroModal.close('modal-1');
+    }
 }
 
 function resetWheel(){
