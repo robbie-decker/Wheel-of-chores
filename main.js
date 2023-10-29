@@ -117,7 +117,8 @@ function renderWheel(){
         .data(pie)
         .enter()
         .append("g")
-        .attr("class", "slice");
+        .attr("class", "slice")
+        .style("scale", "1"); // Set the initial scale to 1
 
 
     arcs.append("path")
@@ -125,19 +126,30 @@ function renderWheel(){
         .attr("d", function (d) { return arc(d); })
         .on("mouseover", function(e) {
             if (!spinning){
-                d3.select(this.parentNode).style({"scale":"1.05", "transition": 'all .2s ease-in-out'});
-                d3.select(this).style({"stroke":"black", "stroke-width":'2'});
+                var parent = d3.select(this.parentNode);
+                var slice = d3.select(this);
 
-                d3.select(this.parentNode).each(function() {  
+                // Change stroke and stroke-width on hover
+                slice.style({"stroke":"black", "stroke-width":'2'});
+
+                // Apply smooth scale transition
+                parent.transition()
+                    .duration(200) // Transition duration in milliseconds
+                    .ease("ease-in-out") // Easing function for smooth effect
+                    .style({"scale":"1.05"}); // Target scale on hover
+                // Raise element by placing it at end of group
+                parent.each(function() {  
                     this.parentNode.appendChild(this); 
                     });
-                 // Want to get data here
             }
         })
         .on("mouseout", function() {
             if (!spinning){
                 // Change the background color to red on hover
-                d3.select(this.parentNode).style({"scale":"1", "transition": 'all .5s ease-out'});
+                d3.select(this.parentNode).transition()
+                    .duration(500) // Transition duration in milliseconds
+                    .ease("ease-out") // Easing function for smooth effect
+                    .style({"scale":"1"}); // Initial scale
                 d3.select(this).style({"stroke":"none"});
             }
         })
