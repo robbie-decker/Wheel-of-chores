@@ -128,7 +128,9 @@ function renderWheel(){
                 d3.select(this.parentNode).style({"scale":"1.05", "transition": 'all .2s ease-in-out'});
                 d3.select(this).style({"stroke":"black", "stroke-width":'2'});
 
-                d3.select(this.parentNode).raise();
+                d3.select(this.parentNode).each(function() {  
+                    this.parentNode.appendChild(this); 
+                    });
                  // Want to get data here
             }
         })
@@ -172,11 +174,11 @@ function renderWheel(){
 
 
     // Make group for spin button
-    vis = container
+    spinButton = container
         .append("g");
 
     //draw spin circle
-    vis.append("circle")
+    spinButton.append("circle")
     .attr("cx", 0)
     .attr("cy", 0)
     .attr("r", 60)
@@ -194,7 +196,7 @@ function renderWheel(){
     .on("click", spin);
 
     //spin text
-    vis.append("text")
+    spinButton.append("text")
     .attr("x", 0)
     .attr("y", 15)
     .attr("text-anchor", "middle")
