@@ -211,8 +211,12 @@ text{
 }
 
 .modal__btn-primary {
-  background-color: #00449e;
+  background-color: #009e4a;
   color: #fff;
+}
+
+#delete {
+   background-color: #d01a1a;
 }
 
 /**************************
@@ -308,12 +312,12 @@ text{
   color: rgba(0,0,0,.8);
 }
 
-.modal__btn {
+/* .modal__btn {
   padding: 10px 15px;
   background-color: #e6e6e6;
   border-radius: 4px;
   -webkit-appearance: none;
-}
+} */
 
 /**************************
   Mobile custom styles for individual modals
