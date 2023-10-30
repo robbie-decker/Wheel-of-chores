@@ -66,13 +66,6 @@ var svg, container, vis, spinButton, pie, arc, arcs;
 renderWheel();
 
 
-function removeExistingItem(key) {
-    if (localStorage.getItem(key) === null)
-        return false;
-    localStorage.removeItem(key);
-    return true;
-}
-
 // TODO: figure this out
 function renderWheel(){
     oldpick = [];
@@ -152,7 +145,6 @@ function renderWheel(){
             d.innerRadius = 0;
             d.outerRadius = r;
             d.angle = (d.startAngle + d.endAngle)/2;
-            console.log(d);
             return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -20) +")";
         })
         .attr("text-anchor", "end")
@@ -302,26 +294,20 @@ function addPerson(){
 }
 
 function deletePerson(){
-    var text = document.getElementById('delete_text').value;
-    if(text === ""){
-        document.querySelector("#notif").textContent = "Please insert something in the text box";
-        return;
-    }
-    if(!removeExistingItem(text)){
-        document.querySelector("#notif").textContent = "That does not exist in the wheel";
-        return;
-    }
-    else{
-        document.querySelector("#notif").textContent = "";
-    }
-    svg.remove();
     console.log("hey are we getting here");
     var data = localStorage.getObj('data');
-    localStorage.removeItem(text);
-    if(localStorage.length == 0){
-        localStorage.setItem('first', 'Name goes here');
+    let selected_index = data.indexOf(selected_slice);
+    if (selected_index >= 0 && selected_index < data.length){
+        data.splice(selected_index,1);
+        if(data.length == 0){
+            data[0] = "Name goes here";
+        }
     }
-    renderWheel();
+    // Close the modal
+    MicroModal.close('modal-1');
+
+    localStorage.setObj('data', data);
+    resetWheel();
 }
 
 function editPerson(){
