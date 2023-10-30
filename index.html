@@ -16,10 +16,6 @@
         <button id="add">Add new person!</button>
         <input id="add_text" type="text">
       </div>
-      <div class="button_container">
-        <button id="delete">Delete person!</button>
-        <input id="delete_text" type="text">
-      </div>
       <button id="clear">Remove everything</button>
       <div>
         <input id="remove_on_spin" type="checkbox" checked="checked">
@@ -27,7 +23,34 @@
       </div>
       <button id="reset">Reset</button>
     </div>
+    <!-- Start of modal content -->
+    <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+          <header class="modal__header">
+            <h2 class="modal__title">
+              Edit & Delete
+            </h2>
+            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+          </header>
+          <div class="modal-content-content">
+            <div class="modal__content">
+              <div>
+                <label for="">Edit data</label>
+                <input type="text" id="slice_name_input">
+              </div>
+              <button id="delete" class="modal__btn">DELETE</button>
+            </div>
+            <footer class="modal__footer">
+              <button id="save" class="modal__btn modal__btn-primary">Save</button>
+              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
     <p id="tester"></p>
+    <button data-micromodal-trigger="modal-1">Modal test</button>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="module" src="/main.js"></script>
   </body>

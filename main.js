@@ -1,15 +1,33 @@
 import './style.css';
 import Proton from "proton-engine";
-
+import MicroModal from 'micromodal';  // es6 module
 // import * as d3 from "d3";
+
+
+// Initialize the modal
+MicroModal.init({
+    awaitCloseAnimation: true,// set to false, to remove close animation
+    onShow: function(modal) {
+      console.log("micromodal open");
+    },
+    onClose: function(modal) {
+      console.log("micromodal close");
+    }
+  });
+
 
 // Get my buttons
 var add = document.getElementById('add') 
 add.onclick = function(){addPerson()};
+// Add event listener for the "DELETE" button in the modal
 document.getElementById('delete').onclick = function(){deletePerson()};
+// Add event listener to the "Save" button inside the modal
+document.getElementById('save').onclick = function(){editPerson()};
 document.getElementById('clear').onclick = function(){clearWheel()};
 document.getElementById('reset').onclick = function(){resetWheel()};
-var allowHover = true;
+var spinning = false;
+var selected_slice = null;
+
 
 
 add.addEventListener("keypress", function(event){
@@ -19,17 +37,20 @@ add.addEventListener("keypress", function(event){
         add.click();
     }
 });
-var data = []
-if (typeof(Storage) !== "undefined"){
-    // Has right version of browser to use local storage
-    if(localStorage.length < 1){
-        // data.push({"label" : "Your name goes here"})
-        localStorage.setItem('first', 'Name goes here');
-    }
+// Add defualt handling of array/ objects to localStorage
+Storage.prototype.setObj = function(key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
 }
-else{
-    //can not keep info
+Storage.prototype.getObj = function(key) {
+    return JSON.parse(this.getItem(key))
 }
+
+// Has right version of browser to use local storage
+if(localStorage.length < 1){
+    localStorage.setObj('data', ['Name goes here']);
+}
+
+
 var padding = {top:20, right:20, bottom:20, left:20},
 w = 500 - padding.left - padding.right,
 h = 500 - padding.top  - padding.bottom,
@@ -41,39 +62,15 @@ oldpick = [],
 color = d3.scale.category20(); //category20c()
 //randomNumbers = getRandomNumbers();
 
-for(var x = 0; x < localStorage.length; x++){
-    console.log("hi there");
-    // console.log(localStorage.getItem(localStorage.key(x)));
-}
-console.log(localStorage);
-console.log(localStorage.key(0));
-console.log(localStorage.length);
-
-var svg, container, vis, pie, arc, arcs;
+var svg, container, vis, spinButton, pie, arc, arcs;
 renderWheel();
 
-// Move info from localStorage into data
-function parseStorage(){
-    data = []
-    for(var x = 0; x < localStorage.length; x++){
-        data.push({"label" : localStorage.getItem(localStorage.key(x))});
-    }
-    console.log("just parsed");
-    console.log(data);
-    console.log(localStorage);
-}
 
-function removeExistingItem(key) {
-    if (localStorage.getItem(key) === null)
-        return false;
-    localStorage.removeItem(key);
-    return true;
-}
-
-// TODO figure this out
+// TODO: figure this out
 function renderWheel(){
     oldpick = [];
-    parseStorage();
+    var data = localStorage.getObj('data');
+    console.log(data);
     svg = d3.select('#chart')
         .append("svg")
         .data([data])
@@ -97,30 +94,49 @@ function renderWheel(){
         .data(pie)
         .enter()
         .append("g")
-        .attr("class", "slice");
+        .attr("class", "slice")
+        .style("scale", "1"); // Set the initial scale to 1
 
 
     arcs.append("path")
         .attr("fill", function(d, i){ return color(i); })
         .attr("d", function (d) { return arc(d); })
         .on("mouseover", function(e) {
-            if (allowHover){
-                d3.select(this).style({"stroke":"black", "stroke-width":'2',
-                 "scale":"1.05", "transition": 'all .2s ease-in-out'});
-                // TODO: add delete functionality by click on slice
-                 // Want to get data here
-                // console.log(e);
+            if (!spinning){
+                var parent = d3.select(this.parentNode);
+                var slice = d3.select(this);
+
+                // Change stroke and stroke-width on hover
+                slice.style({"stroke":"black", "stroke-width":'2'});
+
+                // Apply smooth scale transition
+                parent.transition()
+                    .duration(200) // Transition duration in milliseconds
+                    .ease("ease-in-out") // Easing function for smooth effect
+                    .style({"scale":"1.05"}); // Target scale on hover
+                // Raise element by placing it at end of group
+                parent.each(function() {  
+                    this.parentNode.appendChild(this); 
+                    });
             }
         })
         .on("mouseout", function() {
-            if (allowHover){
+            if (!spinning){
                 // Change the background color to red on hover
-                d3.select(this).style({"stroke":"none", "scale":"1",
-                "transition": 'all .5s ease-out'});
+                d3.select(this.parentNode).transition()
+                    .duration(500) // Transition duration in milliseconds
+                    .ease("ease-out") // Easing function for smooth effect
+                    .style({"scale":"1"}); // Initial scale
+                d3.select(this).style({"stroke":"none"});
             }
         })
+        // TODO: add delete functionality by click on slice
         .on("click", function(e){
-            
+            if (!spinning){
+                MicroModal.show('modal-1'); // [1]
+                selected_slice = e.data;
+                document.getElementById('slice_name_input').value = selected_slice;
+            }
         });
 
 
@@ -129,50 +145,46 @@ function renderWheel(){
             d.innerRadius = 0;
             d.outerRadius = r;
             d.angle = (d.startAngle + d.endAngle)/2;
-            console.log(d);
             return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -20) +")";
         })
         .attr("text-anchor", "end")
         .text( function(d, i) {
-            return data[i].label;
+            return data[i];
             // return localStorage.getItem(localStorage.key(i));
     });
 
-    container.on("mouseover", () => {
-        console.log("we are hovering");
-    });
-    const test = d3.select("#tester")
-    test.on("mouseover", () =>{
-        console.log("testing now");
-    });
-
-        //make arrow
+    //make arrow
     svg.append("g")
     .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
     .append("path")
     .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
     .style({"fill":"black"});
 
+
+    // Make group for spin button
+    spinButton = container
+        .append("g");
+
     //draw spin circle
-    container.append("circle")
+    spinButton.append("circle")
     .attr("cx", 0)
     .attr("cy", 0)
     .attr("r", 60)
     .style({"fill":"white"})
     .on("mouseover", function() {
         // Change the background color to red on hover
-        d3.select(this).style({"stroke":"black", "stroke-width":"3",
-         "scale":'1.1', "transition": 'all .2s ease-in-out'});
+        d3.select(this.parentNode).style({"scale":'1.1', "transition": 'all .2s ease-in-out'});
+        d3.select(this).style({"stroke":"black", "stroke-width":"3"});
     })
     .on("mouseout", function() {
         // Restore the background color to white on mouseout
-        d3.select(this).style({"fill":"white", "stroke":"none",
-         "scale":"1", "transition": 'all .5s ease-out'});
+        d3.select(this.parentNode).style({"scale":"1", "transition": 'all .5s ease-out'})
+        d3.select(this).style({"stroke":"none"});
     })
     .on("click", spin);
 
     //spin text
-    container.append("text")
+    spinButton.append("text")
     .attr("x", 0)
     .attr("y", 15)
     .attr("text-anchor", "middle")
@@ -182,10 +194,8 @@ function renderWheel(){
 
 function spin(d){
     container.on("click", null);
-    
-    allowHover = false;
-    // arcs.on("mouseover", null);
-
+    spinning = true;
+    var data = localStorage.getObj('data');
     //all slices have been seen, all done
     console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
     if(oldpick.length == data.length){
@@ -233,13 +243,16 @@ function spin(d){
         }
         
         //populate div
-        window.alert(data[picked].label + " has to do the thing");
+        window.alert(data[picked] + " has to do the thing");
         // d3.select("#name h1")
         //     .text(data[picked].label + " has to do the thing D:");
         
-        // allow slices to be hoverable again
-        allowHover = true;
+        // allow slices to be hoverable/ clickable again
+        spinning = false;
         oldrotation = rotation;
+
+        console.log(data);
+        console.log(localStorage);
     });
 }
 
@@ -253,46 +266,68 @@ function rotTween(to) {
 
 function addPerson(){
     var text = document.getElementById('add_text').value;
-    console.log(text);
+    var data = localStorage.getObj('data');
+    const notification = document.querySelector("#notif");
     if(text === ""){
-        document.querySelector("#notif").innerHTML = "Please insert something in the text box";
+        notification.textContent = "Please insert something in the text box";
         return;
     }  
+    else if(data.includes(text)){
+        notification.textContent = "Duplicate name. Try entering something else";
+        return;
+    }
     else{
-        document.querySelector("#notif").innerHTML = "";
+        notification.textContent = "";
     } 
 
     // User is adding first name
-    if(localStorage.getItem("first") == "Name goes here"){
-        localStorage.removeItem("first");
+    if(data[0] == "Name goes here"){
+        data[0] = text;
+    }
+    else{
+        data.push(text);
     }
 
+    localStorage.setObj('data', data);
     svg.remove();
-    localStorage.setItem(text, text)
-    // data.push({"label": text, "name": "extra words"});
     renderWheel();
 }
 
 function deletePerson(){
-    var text = document.getElementById('delete_text').value;
-    if(text === ""){
-        document.querySelector("#notif").innerHTML = "Please insert something in the text box";
-        return;
-    }
-    if(!removeExistingItem(text)){
-        document.querySelector("#notif").innerHTML = "That does not exist in the wheel";
-        return;
-    }
-    else{
-        document.querySelector("#notif").innerHTML = "";
-    }
-    svg.remove();
     console.log("hey are we getting here");
-    localStorage.removeItem(text);
-    if(localStorage.length == 0){
-        localStorage.setItem('first', 'Name goes here');
+    var data = localStorage.getObj('data');
+    let selected_index = data.indexOf(selected_slice);
+    if (selected_index >= 0 && selected_index < data.length){
+        data.splice(selected_index,1);
+        if(data.length == 0){
+            data[0] = "Name goes here";
+        }
     }
-    renderWheel();
+    // Close the modal
+    MicroModal.close('modal-1');
+
+    localStorage.setObj('data', data);
+    resetWheel();
+}
+
+function editPerson(){
+    console.log('is this happening?');
+    // Get the updated text from the input field inside the modal
+    var data = localStorage.getObj('data');
+    var updatedText = document.getElementById('slice_name_input').value;
+    let selected_index = data.indexOf(selected_slice);
+    // Check if the picked variable is valid
+    if (selected_index >= 0 && selected_index < data.length) {
+        // Update the label of the selected slice with the new text
+        data[selected_index] = updatedText
+        localStorage.setObj('data', data);
+
+        // TODO: in a perfect world this would not reset and rerender the wheel but for times sake, I am using it
+        resetWheel();
+        
+        // Close the modal
+        MicroModal.close('modal-1');
+    }
 }
 
 function resetWheel(){
@@ -302,8 +337,7 @@ function resetWheel(){
 
 function clearWheel(){
     localStorage.clear();
-    localStorage.setItem("first", "Name goes here");
-    data = []
+    localStorage.setObj("data", ["Name goes here"]);
     // remove wheel
     svg.remove();
     // rerender the wheel
