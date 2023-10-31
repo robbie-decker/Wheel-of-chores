@@ -23,23 +23,6 @@ text{
   left:0;
   margin: auto;
 }
-#question{
-  position: inline;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-}
-#question h1{
-  font-size: 25px;
-  font-weight: bold;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  position: inline;
-  padding: 0;
-  margin: 0;
-  top:50%;
-  -webkit-transform:translate(0,-50%);
-          transform:translate(0,-50%);
-}
 
 #notif{
   text-align: center;
