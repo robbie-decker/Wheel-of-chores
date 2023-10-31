@@ -249,6 +249,7 @@ function spin(d){
         
         //bring up modal and populate it
         MicroModal.show("modal-selected")
+        document.getElementById('selected_text').textContent = data[picked];
 
         // allow slices to be hoverable/ clickable again
         spinning = false;
