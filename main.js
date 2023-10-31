@@ -27,6 +27,7 @@ document.getElementById('clear').onclick = function(){clearWheel()};
 document.getElementById('reset').onclick = function(){resetWheel()};
 var spinning = false;
 var selected_slice = null;
+const removeOption = document.getElementById("remove_on_spin")
 
 
 
@@ -101,6 +102,7 @@ function renderWheel(){
     arcs.append("path")
         .attr("fill", function(d, i){ return color(i); })
         .attr("d", function (d) { return arc(d); })
+        // .data(data)
         .on("mouseover", function(e) {
             if (!spinning){
                 var parent = d3.select(this.parentNode);
@@ -130,11 +132,11 @@ function renderWheel(){
                 d3.select(this).style({"stroke":"none"});
             }
         })
-        // TODO: add delete functionality by click on slice
         .on("click", function(e){
             if (!spinning){
-                MicroModal.show('modal-1'); // [1]
+                MicroModal.show('modal-slice-info'); // [1]
                 selected_slice = e.data;
+                console.log(e);
                 document.getElementById('slice_name_input').value = selected_slice;
             }
         });
@@ -213,7 +215,6 @@ function spin(d){
     picked = picked >= data.length ? (picked % data.length) : picked;
     
     // Figure out if user wants to remove slice or not
-    const removeOption = document.getElementById("remove_on_spin")
 
     // FIXME: Okay. I think this is really bad
     // If it does not find a new slice it recursively will call this function
@@ -238,21 +239,20 @@ function spin(d){
     .each("end", function(){
         //mark slice as seen only if that option is selected
         if(removeOption.checked){
-            d3.select(".slice:nth-child(" + (picked + 1) + ") path")
-            .attr("fill", "#111");
+            var selected_elem = d3.selectAll(".slice path").filter(function(d){
+                return d.data == data[picked];
+            });
+            selected_elem.transition()
+                .duration(1000)
+                .attr("fill", "#111");
         }
         
-        //populate div
+        //populate modal
         window.alert(data[picked] + " has to do the thing");
-        // d3.select("#name h1")
-        //     .text(data[picked].label + " has to do the thing D:");
-        
+
         // allow slices to be hoverable/ clickable again
         spinning = false;
         oldrotation = rotation;
-
-        console.log(data);
-        console.log(localStorage);
     });
 }
 
@@ -304,7 +304,7 @@ function deletePerson(){
         }
     }
     // Close the modal
-    MicroModal.close('modal-1');
+    MicroModal.close('modal-slice-info');
 
     localStorage.setObj('data', data);
     resetWheel();
@@ -326,7 +326,7 @@ function editPerson(){
         resetWheel();
         
         // Close the modal
-        MicroModal.close('modal-1');
+        MicroModal.close('modal-slice-info');
     }
 }
 
