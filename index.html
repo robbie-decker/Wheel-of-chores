@@ -23,8 +23,8 @@
       </div>
       <button id="reset">Reset</button>
     </div>
-    <!-- Start of modal content -->
-    <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+    <!-- Modal for clicking on slice-->
+    <div class="modal micromodal-slide" id="modal-slice-info" aria-hidden="true">
       <div class="modal__overlay" tabindex="-1" data-micromodal-close>
         <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
           <header class="modal__header">
@@ -49,8 +49,24 @@
         </div>
       </div>
     </div>
-    <p id="tester"></p>
-    <button data-micromodal-trigger="modal-1">Modal test</button>
+    <!-- Modal for person selected -->
+    <div class="modal micromodal-slide" id="modal-selected" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+          <header class="modal__header">
+            <h1>Congratulations</h1>
+            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+          </header>
+          <div class="modal-content-content">
+            <div class="modal__content">
+              <div class="modal__selected_text">
+                <b><p id="selected_text">Test</p></b><p>&nbsp;was selected!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="module" src="/main.js"></script>
   </body>

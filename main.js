@@ -247,8 +247,8 @@ function spin(d){
                 .attr("fill", "#111");
         }
         
-        //populate modal
-        window.alert(data[picked] + " has to do the thing");
+        //bring up modal and populate it
+        MicroModal.show("modal-selected")
 
         // allow slices to be hoverable/ clickable again
         spinning = false;
