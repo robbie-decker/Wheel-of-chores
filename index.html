@@ -12,15 +12,21 @@
     <p id=notif></p>
     <div class="buttons">
       <div class="button_container">
-        <button id="add">Add new person!</button>
+        <button id="add" title="Add new person">
+          <img src="./imgs/plus.svg" alt="Plus sign">
+        </button>
         <input id="add_text" type="text">
       </div>
-      <button id="clear">Remove everything</button>
+      <button id="clear" title="Remove all data">
+        <img src="./imgs/trash.svg" alt="Cute lil trash can">
+      </button>
+      <button id="reset" title="Reset wheel">
+        <img src="./imgs/reset.svg" alt="Circular arrow">
+      </button>
       <div>
         <input id="remove_on_spin" type="checkbox" checked="checked">
         <label for="remove_on_spin">Remove selected person</label>
       </div>
-      <button id="reset">Reset</button>
     </div>
     <!-- Modal for clicking on slice-->
     <div class="modal micromodal-slide" id="modal-slice-info" aria-hidden="true">
