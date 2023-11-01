@@ -53,8 +53,8 @@ if(localStorage.length < 1){
 
 
 var padding = {top:20, right:20, bottom:20, left:20},
-w = 500 - padding.left - padding.right,
-h = 500 - padding.top  - padding.bottom,
+w = 450 - padding.left - padding.right,
+h = 450 - padding.top  - padding.bottom,
 r = Math.min(w, h)/2,
 rotation = 0,
 oldrotation = 0,

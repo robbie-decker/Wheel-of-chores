@@ -10,22 +10,24 @@
     <h1 class="title">Wheel of Chores!</h1>
     <div id="chart"></div>
     <p id=notif></p>
-    <div class="buttons">
-      <div class="button_container">
-        <button id="add" title="Add new person">
-          <img src="./imgs/plus.svg" alt="Plus sign">
+    <div class="buttons_container">
+      <div class="buttons">
+        <div class="add_container">
+          <button id="add" title="Add new person">
+            <img src="./imgs/plus.svg" alt="Plus sign">
+          </button>
+          <input id="add_text" type="text" style="margin-top: 4px;">
+        </div>
+        <button id="clear" title="Remove all data">
+          <img src="./imgs/trash.svg" alt="Cute lil trash can">
         </button>
-        <input id="add_text" type="text">
-      </div>
-      <button id="clear" title="Remove all data">
-        <img src="./imgs/trash.svg" alt="Cute lil trash can">
-      </button>
-      <button id="reset" title="Reset wheel">
-        <img src="./imgs/reset.svg" alt="Circular arrow">
-      </button>
-      <div>
-        <input id="remove_on_spin" type="checkbox" checked="checked">
-        <label for="remove_on_spin">Remove selected person</label>
+        <button id="reset" title="Reset wheel">
+          <img src="./imgs/reset.svg" alt="Circular arrow">
+        </button>
+        <div>
+          <input id="remove_on_spin" type="checkbox" checked="checked">
+          <label for="remove_on_spin">Remove selected person</label>
+        </div>
       </div>
     </div>
     <!-- Modal for clicking on slice-->
