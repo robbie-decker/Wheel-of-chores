@@ -96,6 +96,9 @@ img{
 
 }
 
+.total_spin_container{
+  display: flex;
+}
 
 /**************************
   Basic Modal Styles
