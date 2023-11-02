@@ -4,6 +4,13 @@ import MicroModal from 'micromodal';  // es6 module
 import axios from 'axios';
 // import * as d3 from "d3";
 
+const apiURL2 = 'http://localhost:4000/api/name_increment';
+const apiURL3 = 'http://localhost:4000/api/totalSpins';
+
+const api = 'http://localhost:4000/api/';
+const nameIncrement = "name_increment";
+const totalSpins = "totalSpins";
+console.log(api + nameIncrement);
 
 // Initialize the modal
 MicroModal.init({
@@ -30,6 +37,16 @@ var spinning = false;
 var selected_slice = null;
 const removeOption = document.getElementById("remove_on_spin")
 
+// Get and populate total spins
+const totalSpinsElem = document.getElementById("totalSpins");
+getTotalSpinsDB().then((data)  => {
+    if(data){
+        totalSpinsElem.textContent = data[0]['totalamount'];
+    }
+    else{
+        totalSpinsElem.textContent = "Can't find out"
+    }
+});
 
 
 add.addEventListener("keypress", function(event){
@@ -253,7 +270,17 @@ function spin(d){
         document.getElementById('selected_text').textContent = data[picked];
 
         // Now increment value selected in our DB
-        incrementNameDB(data[picked]);
+        incrementNameDB(data[picked]).then(() => {
+            // Check for new total spins and set text accordingly
+            getTotalSpinsDB().then((data)  => {
+                if(data){
+                    totalSpinsElem.textContent = data[0]['totalamount'];
+                }
+                else{
+                    totalSpinsElem.textContent = "Can't find out"
+                }
+            });
+        });
 
         // allow slices to be hoverable/ clickable again
         spinning = false;
@@ -350,11 +377,24 @@ function clearWheel(){
 }
 
 function incrementNameDB(selectedName){
-    axios.post(apiURL2, {name : selectedName})
+    return axios.post((api + nameIncrement), {name : selectedName})
     .then(response => {
         console.log('POST request succesful:', response.data);
     })
     .catch(error => {
+        console.error('Error making POST request:', error);
+    });
+}
+
+function getTotalSpinsDB(){
+    return axios.get(api + totalSpins)
+    .then(response => {
+        // Handle the successful response here
+        console.log('GET request successful:', response.data);
+        return response.data
+    })
+    .catch(error => {
+        // Handle errors here
         console.error('Error making POST request:', error);
     });
 }
@@ -376,7 +416,6 @@ function getRandomNumbers(){
 }
 
 const apiURL1 = 'http://localhost:4000/api/name';
-const apiURL2 = 'http://localhost:4000/api/name_increment';
 
 axios.get(apiURL1, {
     params: {
@@ -391,4 +430,3 @@ axios.get(apiURL1, {
         // Handle errors here
         console.error('Error making POST request:', error);
     });
-

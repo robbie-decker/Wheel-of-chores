@@ -28,13 +28,18 @@ text{
   margin: 0 0 4px 0;
 }
 
+#main_content{
+  display: flex;
+  justify-content: space-evenly;
+}
+
 #chart{
   position:inline;
   width:450px;
   height:450px;
   top:10rem;
   left:0;
-  margin: auto;
+  /* margin: auto; */
 }
 
 #notif{

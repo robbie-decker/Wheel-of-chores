@@ -34,53 +34,14 @@ db.once('open', () => {
 });
 
 // Define routes and APIs
+// If name does exist then add 1 to the total
 app.use('/api', require('./routes/api'));
 
 app.get('/', (req, res) => {
   res.send('Hi World!')
 })
-
-// TODO: GET document based off of name value
-// If name does exist then add 1 to the total
-// People.findOneAndUpdate({'name': '<name>'}, {$inc: {'total': 1}}, {new: true}).then((data) => {
-//   console.log(data);
-// });
-
-// TODO: Then query the collection to sum the total number of spins for each person
-// const agg = [
-//   {
-//     '$group': {
-//       '_id': null, 
-//       'totalamount': {
-//         '$sum': '$total'
-//       }
-//     }
-//   }
-// ];
-// People.aggregate(agg).then((data) => {
-//   console.log(data);
-// })
-
-// If name does not exist...
-// TODO: POST document with name set to name and total set to 0
-
-
-
 // Start the server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
-
-// Finds person and updates total by 1
-// people.findAndModify({
-//   query: { 'name': <name> },
-//   update: { $inc: { total: 1 } },
-//   new: true,
-// })
-// People.findOneAndUpdate({'name': 'Robbie'}, {$inc: {'total': 1}}, {new: true}).then((data) => {
-//   console.log(data);
-// });
-
