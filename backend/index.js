@@ -1,8 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const People = require('./models/People');
 
 const app = express();
+
+// Enable All CORS Requests
+app.use(cors());
 
 // Middleware
 app.use(bodyParser.json());
@@ -28,14 +34,6 @@ db.once('open', () => {
 // Example:
 app.use('/api', require('./routes/api'));
 
-// Wheel Modal Schema 
-const wheelSchema = new mongoose.Schema({ 
-  _id: Number, 
-  name: String, 
-  total: Number 
-}, {collection:'people'}); 
-  
-const People = mongoose.model('people', wheelSchema);
 app.get('/', (req, res) => {
   res.send('Hi World!')
 })
@@ -67,7 +65,7 @@ app.get('/', (req, res) => {
 
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
