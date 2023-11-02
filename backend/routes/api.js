@@ -3,22 +3,19 @@ const router = express.Router();
 const People = require('../models/People');
 
 
-
+// Just get the specified document in the DB based of a name
 router.get('/name', async (req, res) => {
     // This is mainly a dev function
-    // Get a name from the database
     try {
       const { name } = req.query;
-      console.log(name);
-      console.log(req.query);
       const data = await People.find({'name': 'dfds'})
-      console.log('data:', data);
       res.status(201).json(data);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   });
 
+// Increment the total if name exists, if not create it and set its total to 1
 router.post('/name_increment', async (req, res) => {
   try {
     const { name } = req.body; // Get picked name given

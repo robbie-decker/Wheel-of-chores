@@ -252,6 +252,9 @@ function spin(d){
         MicroModal.show("modal-selected")
         document.getElementById('selected_text').textContent = data[picked];
 
+        // Now increment value selected in our DB
+        incrementNameDB(data[picked]);
+
         // allow slices to be hoverable/ clickable again
         spinning = false;
         oldrotation = rotation;
@@ -346,6 +349,16 @@ function clearWheel(){
     renderWheel();
 }
 
+function incrementNameDB(selectedName){
+    axios.post(apiURL2, {name : selectedName})
+    .then(response => {
+        console.log('POST request succesful:', response.data);
+    })
+    .catch(error => {
+        console.error('Error making POST request:', error);
+    });
+}
+
 function getRandomNumbers(){
     var array = new Uint16Array(1000);
     var scale = d3.scale.linear().range([360, 1440]).domain([0, 100000]);
@@ -376,14 +389,6 @@ axios.get(apiURL1, {
     })
     .catch(error => {
         // Handle errors here
-        console.error('Error making POST request:', error);
-    });
-
-axios.post(apiURL2, {name : "fds"})
-    .then(response => {
-        console.log('POST request succesful:', response.data);
-    })
-    .catch(error => {
         console.error('Error making POST request:', error);
     });
 
