@@ -19,31 +19,16 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
   console.log('Connected to MongoDB');
-  // People.find({'name': 'Robbie'}).then((data) => {
-  //   console.log(data);
-  // });
-  const agg = [
-    {
-      '$group': {
-        '_id': null, 
-        'totalamount': {
-          '$sum': '$total'
-        }
-      }
-    }
-  ];
-  People.aggregate(agg).then((data) => {
+  People.find({'name': 'Robbie'}).then((data) => {
     console.log(data);
-  })
-  
-
+  });
 });
 
 // Define routes and APIs
 // Example:
-// app.use('/api', require('./routes/api'));
+app.use('/api', require('./routes/api'));
 
-// Course Modal Schema 
+// Wheel Modal Schema 
 const wheelSchema = new mongoose.Schema({ 
   _id: Number, 
   name: String, 
