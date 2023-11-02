@@ -1,6 +1,7 @@
 import './style.css';
 import Proton from "proton-engine";
 import MicroModal from 'micromodal';  // es6 module
+import axios from 'axios';
 // import * as d3 from "d3";
 
 
@@ -360,3 +361,29 @@ function getRandomNumbers(){
     }
     return array;
 }
+
+const apiURL1 = 'http://localhost:4000/api/name';
+const apiURL2 = 'http://localhost:4000/api/name_increment';
+
+axios.get(apiURL1, {
+    params: {
+      name: 'Robbie'
+    }
+  })
+    .then(response => {
+        // Handle the successful response here
+        console.log('GET request successful:', response.data);
+    })
+    .catch(error => {
+        // Handle errors here
+        console.error('Error making POST request:', error);
+    });
+
+axios.post(apiURL2, {name : "Robbie"})
+    .then(response => {
+        console.log('POST request succesful:', response.data);
+    })
+    .catch(error => {
+        console.error('Error making POST request:', error);
+    });
+

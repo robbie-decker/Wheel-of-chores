@@ -25,13 +25,15 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
   console.log('Connected to MongoDB');
-  People.find({'name': 'Robbie'}).then((data) => {
+  People.findOne({'name': 'Robbie'}).then((data) => {
     console.log(data);
   });
+  // People.find().then((data) =>{
+  //   console.log(data);
+  // })
 });
 
 // Define routes and APIs
-// Example:
 app.use('/api', require('./routes/api'));
 
 app.get('/', (req, res) => {
