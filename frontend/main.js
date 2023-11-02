@@ -379,7 +379,7 @@ axios.get(apiURL1, {
         console.error('Error making POST request:', error);
     });
 
-axios.post(apiURL2, {name : "Robbie"})
+axios.post(apiURL2, {name : "fds"})
     .then(response => {
         console.log('POST request succesful:', response.data);
     })
