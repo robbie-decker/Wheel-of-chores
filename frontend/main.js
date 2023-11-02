@@ -36,6 +36,7 @@ document.getElementById('reset').onclick = function(){resetWheel()};
 var spinning = false;
 var selected_slice = null;
 const removeOption = document.getElementById("remove_on_spin")
+const notification = document.querySelector("#notif");
 
 // Get and populate total spins
 const totalSpinsElem = document.getElementById("totalSpins");
@@ -214,14 +215,19 @@ function renderWheel(){
 
 function spin(d){
     container.on("click", null);
-    spinning = true;
     var data = localStorage.getObj('data');
+    if(data.length == 1 && data[0] == "Name goes here"){
+        notification.textContent = "Add a person first";
+        return;
+    }
     //all slices have been seen, all done
     console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
     if(oldpick.length == data.length){
         console.log("done");
         return;
     }
+    
+    spinning = true;
 
     var  ps       = 360/data.length,
         pieslice = Math.round(1440/data.length),
@@ -299,7 +305,6 @@ function rotTween(to) {
 function addPerson(){
     var text = document.getElementById('add_text').value;
     var data = localStorage.getObj('data');
-    const notification = document.querySelector("#notif");
     if(text === ""){
         notification.textContent = "Please insert something in the text box";
         return;
