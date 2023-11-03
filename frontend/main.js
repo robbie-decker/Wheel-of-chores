@@ -53,8 +53,10 @@ getTotalSpinsDB().then((data)  => {
 // Get and populate leaderboard
 const leaderboard = document.querySelectorAll(".leaderboard ol li");
 getTopLeaders(5).then((data) =>{
-    for(let i = 0; i < leaderboard.length; i++){
-        leaderboard[i].textContent = `${data[i]['name']} (${data[i]['total']})`;
+    if(data){
+        for(let i = 0; i < leaderboard.length; i++){
+            leaderboard[i].textContent = `${data[i]['name']} (${data[i]['total']})`;
+        }
     }
 })
 
@@ -286,6 +288,14 @@ function spin(d){
 
         // Now increment value selected in our DB
         incrementNameDB(data[picked]).then(() => {
+            // Get top 5 people again to see if anything changed
+            getTopLeaders(5).then((data) =>{
+                if(data){
+                    for(let i = 0; i < leaderboard.length; i++){
+                        leaderboard[i].textContent = `${data[i]['name']} (${data[i]['total']})`;
+                    }
+                }
+            });
             // Check for new total spins and set text accordingly
             getTotalSpinsDB().then((data)  => {
                 if(data){
@@ -296,6 +306,7 @@ function spin(d){
                 }
             });
         });
+
 
         // allow slices to be hoverable/ clickable again
         spinning = false;
