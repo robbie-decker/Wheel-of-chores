@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.6.0",
-    "micromodal": "^0.4.10",
-    "proton-engine": "^5.4.3"
+    "fireworks-js": "^2.10.7",
+    "micromodal": "^0.4.10"
   }
 }
