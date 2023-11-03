@@ -1,5 +1,5 @@
 import './style.css';
-import Proton from "proton-engine";
+import { Fireworks } from 'fireworks-js'
 import MicroModal from 'micromodal';  // es6 module
 import axios from 'axios';
 // import * as d3 from "d3";
@@ -14,13 +14,9 @@ const topNumber = "top_number_leaderboard"
 
 // Initialize the modal
 MicroModal.init({
-    awaitCloseAnimation: true,// set to false, to remove close animation
-    onShow: function(modal) {
-      console.log("micromodal open");
-    },
-    onClose: function(modal) {
-      console.log("micromodal close");
-    }
+    onShow: modal => console.info(`${modal.id} is shown`), // [1]
+    onClose: modal => console.info(`${modal.id} is hidden`), // [2]
+    awaitCloseAnimation: true,// set to false, to remove close animation  
   });
 
 
@@ -59,7 +55,18 @@ getTopLeaders(5).then((data) =>{
     }
 })
 
+// Setup up fireworks
+const fireworkContainer = document.getElementById("fireworks");
+const fireworks = new Fireworks(fireworkContainer, {
+    rocketsPoint: {
+        min: 0,
+        max: 100
+      },
+      intensity: 15,
+      particles: 50
+})
 
+// FIXME: Change the add button to be a form so that pressing enter adds a person
 add.addEventListener("keypress", function(event){
     console.log(event);
     if(event.key === 13){
@@ -164,7 +171,6 @@ function renderWheel(){
             if (!spinning){
                 MicroModal.show('modal-slice-info'); // [1]
                 selected_slice = e.data;
-                console.log(e);
                 document.getElementById('slice_name_input').value = selected_slice;
             }
         });
@@ -281,7 +287,10 @@ function spin(d){
         }
         
         //bring up modal and populate it
-        MicroModal.show("modal-selected")
+        MicroModal.show("modal-selected", {
+            onShow: onShow,
+            onClose: onClose
+        });
         document.getElementById('selected_text').textContent = data[picked];
 
         // Now increment value selected in our DB
@@ -385,12 +394,25 @@ function editPerson(){
     }
 }
 
+function onShow(modal) {
+    showFireworks(true);
+  }
+function onClose(modal) {
+    showFireworks(false);
+}
+
 function showFireworks(running){
     if(running){
         // start the fireworks
+        console.log("Fireworks running!")
+        fireworkContainer.style.display = 'inline'
+        fireworks.start();
     }
     else{
         // stop the fireworks
+        console.log("Fireworks should have stopped")
+        fireworkContainer.style.display = 'none'
+        fireworks.stop();
     }
 }
 

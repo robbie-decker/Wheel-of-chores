@@ -120,6 +120,14 @@ img{
   flex-direction: column;
 }
 
+#fireworks{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  display: none;
+}
 
 #stats{
   display: flex;
@@ -167,6 +175,7 @@ img{
 
 .modal {
   font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+  z-index: 100;
 }
 
 .modal__overlay {
