@@ -80,7 +80,7 @@ if(localStorage.length < 1){
 }
 
 
-var padding = {top:20, right:20, bottom:20, left:20},
+var padding = {top:0, right:20, bottom:0, left:20},
 w = 450 - padding.left - padding.right,
 h = 450 - padding.top  - padding.bottom,
 r = Math.min(w, h)/2,

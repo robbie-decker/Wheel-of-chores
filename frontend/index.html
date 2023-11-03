@@ -7,12 +7,15 @@
     <title>Wheel of Chores</title>
   </head>
   <body>
-    <h1 class="title">Wheel of Chores!</h1>
+    <div class="intro">
+      <h1 class="title">Wheel of Chores!</h1>
+      <p>Add people's names to the wheel and spin to see who has to do the chore!</p>
+    </div>
     <div id="main_content">
       <div id="chart"></div>
       <div id="stats">
       <div class="leaderboard">
-        <h3>Biggest Losers</h3>
+        <h3 class="modal">Biggest Losers</h3>
         <ol>
           <li></li>
           <li></li>
@@ -92,6 +95,7 @@
         </div>
       </div>
     </div>
+    <footer><p>Created By <a href="https://robbiedecker.com/">Robbie Decker</a></p></footer>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="module" src="/main.js"></script>
   </body>

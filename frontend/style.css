@@ -3,23 +3,46 @@
   src: url("./fonts/Vine\ Spinach.otf");
 }
 
+@font-face {
+  font-family: "Janda Manatee";
+  src: url("./fonts/JandaManateeBubble.ttf")
+}
+
 :root{
   --main-color: #71B7AD;
   --main-darker: #48978C;
   --accent: #99DF8A;
   --accent-darker: #71C85F;
+  font-family: Courier, Arial;
 }
 
 body{
   height: 100vh;
   width: auto;
   margin: 0;
+  background-color: #F5FDE1;
 }
 
 text{
   font-family:Helvetica, Arial, sans-serif;
   font-size:18px;
   pointer-events:none;
+}
+
+.intro{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.intro *{
+  max-width: 600px;
+}
+
+.intro p{
+  margin: 5px 0 0 0;
 }
 
 .title{
@@ -97,6 +120,7 @@ img{
   flex-direction: column;
 }
 
+
 #stats{
   display: flex;
   flex-direction: column;
@@ -123,6 +147,7 @@ img{
 
 .leaderboard h3{
   text-align: center;
+  margin: 5px 0;
 }
 
 .leaderboard ol{
@@ -285,6 +310,7 @@ img{
 
 #delete {
    background-color: #d01a1a;
+   margin-top: 10px;
 }
 
 /**************************
@@ -439,3 +465,8 @@ button.external {
 .other-links a {
   font-size: 12px;
 }    
+
+footer{
+  margin: 5px auto 2px auto;
+  text-align: center;
+}
