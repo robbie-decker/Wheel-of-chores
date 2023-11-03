@@ -20,7 +20,6 @@ router.get('/total_spins', async(req, res) =>{
   This is probably a slow way to do this since it sums all the totals of every document in
   the collection, but I wanted a more interactive query than just getting a single stored value somewhere */
   try {
-    // TODO: Then query the collection to sum the total number of spins for each person
     const agg = [
       {
         '$group': {
@@ -44,7 +43,6 @@ router.get('/top_number_leaderboard', async(req, res) => {
   For ex) Give 5, and get back 5 most selected people
   */
   try {
-    // TODO: Then query the collection to sum the total number of spins for each person
     const { limit } = req.query;
     const topNumber = 
       [
@@ -53,10 +51,10 @@ router.get('/top_number_leaderboard', async(req, res) => {
                 'total': -1
             }
         }, {
-            '$limit': limit 
+            '$limit': Number(limit) 
         }
-    ]
-    const topNumberPeople = await People.aggregate(topNumber)
+    ];
+    const topNumberPeople = await People.aggregate(topNumber);
     res.status(201).json(topNumberPeople);
   } catch (err) {
     res.status(500).json({ error: err.message });
