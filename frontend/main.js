@@ -77,7 +77,7 @@ Storage.prototype.getObj = function(key) {
 
 // Has right version of browser to use local storage
 if(localStorage.length < 1){
-    localStorage.setObj('data', ['Name goes here']);
+    localStorage.setObj('data', ['Name here']);
 }
 
 
@@ -225,7 +225,7 @@ function renderWheel(){
 function spin(d){
     container.on("click", null);
     var data = localStorage.getObj('data');
-    if(data.length == 1 && data[0] == "Name goes here"){
+    if(data.length == 1 && data[0] == "Name here"){
         notification.textContent = "Add a person first";
         return;
     }
@@ -336,7 +336,7 @@ function addPerson(){
     } 
 
     // User is adding first name
-    if(data[0] == "Name goes here"){
+    if(data[0] == "Name here"){
         data[0] = text;
     }
     else{
@@ -355,7 +355,7 @@ function deletePerson(){
     if (selected_index >= 0 && selected_index < data.length){
         data.splice(selected_index,1);
         if(data.length == 0){
-            data[0] = "Name goes here";
+            data[0] = "Name here";
         }
     }
     // Close the modal
@@ -385,6 +385,15 @@ function editPerson(){
     }
 }
 
+function showFireworks(running){
+    if(running){
+        // start the fireworks
+    }
+    else{
+        // stop the fireworks
+    }
+}
+
 function resetWheel(){
     svg.remove();
     renderWheel();
@@ -392,7 +401,7 @@ function resetWheel(){
 
 function clearWheel(){
     localStorage.clear();
-    localStorage.setObj("data", ["Name goes here"]);
+    localStorage.setObj("data", ["Name here"]);
     // remove wheel
     svg.remove();
     // rerender the wheel
