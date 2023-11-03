@@ -9,7 +9,8 @@ const apiURL3 = 'http://localhost:4000/api/totalSpins';
 
 const api = 'http://localhost:4000/api/';
 const nameIncrement = "name_increment";
-const totalSpins = "totalSpins";
+const totalSpins = "total_spins";
+const topNumber = "top_number_leaderboard"
 console.log(api + nameIncrement);
 
 // Initialize the modal
@@ -48,6 +49,14 @@ getTotalSpinsDB().then((data)  => {
         totalSpinsElem.textContent = "Can't find out"
     }
 });
+
+// Get and populate leaderboard
+const leaderboard = document.querySelectorAll(".leaderboard ol li");
+getTopLeaders(5).then((data) =>{
+    for(let i = 0; i < leaderboard.length; i++){
+        leaderboard[i].textContent = `${data[i]['name']} (${data[i]['total']})`;
+    }
+})
 
 
 add.addEventListener("keypress", function(event){
@@ -395,13 +404,30 @@ function getTotalSpinsDB(){
     return axios.get(api + totalSpins)
     .then(response => {
         // Handle the successful response here
-        console.log('GET request successful:', response.data);
+        console.log('GET total spins request successful:', response.data);
         return response.data
     })
     .catch(error => {
         // Handle errors here
-        console.error('Error making POST request:', error);
+        console.error('Error fetching GET total spins request:', error);
     });
+}
+// top is the top number of people we want to fetch
+function getTopLeaders(top){
+    return axios.get((api + topNumber), {
+        params: {
+          limit: top
+        }
+      })
+        .then(response => {
+            // Handle the successful response here
+            console.log('GET request successful:', response.data);
+            return response.data
+        })
+        .catch(error => {
+            // Handle errors here
+            console.error('Error fetching GET request:', error);
+        });
 }
 
 function getRandomNumbers(){
@@ -433,5 +459,5 @@ axios.get(apiURL1, {
     })
     .catch(error => {
         // Handle errors here
-        console.error('Error making POST request:', error);
+        console.error('Error fetching GET request:', error);
     });
