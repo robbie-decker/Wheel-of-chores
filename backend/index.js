@@ -25,19 +25,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
   console.log('Connected to MongoDB');
-  const topNumber = 
-      [
-        {
-            '$sort': {
-                'total': -1
-            }
-        }, {
-            '$limit': 5
-        }
-    ]
-    People.aggregate(topNumber).then((data) =>{
-      console.log(data);
-    })
 });
 
 // Define routes and APIs

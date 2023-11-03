@@ -11,7 +11,6 @@ const api = 'http://localhost:4000/api/';
 const nameIncrement = "name_increment";
 const totalSpins = "total_spins";
 const topNumber = "top_number_leaderboard"
-console.log(api + nameIncrement);
 
 // Initialize the modal
 MicroModal.init({
@@ -101,7 +100,6 @@ renderWheel();
 function renderWheel(){
     oldpick = [];
     var data = localStorage.getObj('data');
-    console.log(data);
     svg = d3.select('#chart')
         .append("svg")
         .data([data])
@@ -456,19 +454,3 @@ function getRandomNumbers(){
     }
     return array;
 }
-
-const apiURL1 = 'http://localhost:4000/api/name';
-
-axios.get(apiURL1, {
-    params: {
-      name: 'Robbie'
-    }
-  })
-    .then(response => {
-        // Handle the successful response here
-        console.log('GET request successful:', response.data);
-    })
-    .catch(error => {
-        // Handle errors here
-        console.error('Error fetching GET request:', error);
-    });
