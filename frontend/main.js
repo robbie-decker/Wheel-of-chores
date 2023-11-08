@@ -68,7 +68,6 @@ const fireworks = new Fireworks(fireworkContainer, {
 
 // FIXME: Change the add button to be a form so that pressing enter adds a person
 add.addEventListener("keypress", function(event){
-    console.log(event);
     if(event.key === 13){
         event.preventDefault();
         add.click();
@@ -121,7 +120,6 @@ function renderWheel(){
         .append("g");
 
     pie = d3.layout.pie().sort(null).value(function(d){return 1;});
-
     // declare an arc generator function
     arc = d3.svg.arc().outerRadius(r);
 
@@ -358,7 +356,6 @@ function addPerson(){
 }
 
 function deletePerson(){
-    console.log("hey are we getting here");
     var data = localStorage.getObj('data');
     let selected_index = data.indexOf(selected_slice);
     if (selected_index >= 0 && selected_index < data.length){
@@ -375,7 +372,6 @@ function deletePerson(){
 }
 
 function editPerson(){
-    console.log('is this happening?');
     // Get the updated text from the input field inside the modal
     var data = localStorage.getObj('data');
     var updatedText = document.getElementById('slice_name_input').value;
@@ -404,14 +400,12 @@ function onClose(modal) {
 function showFireworks(running){
     if(running){
         // start the fireworks
-        console.log("Fireworks running!")
-        fireworkContainer.style.display = 'inline'
+        fireworkContainer.style.display = 'inline';
         fireworks.start();
     }
     else{
         // stop the fireworks
-        console.log("Fireworks should have stopped")
-        fireworkContainer.style.display = 'none'
+        fireworkContainer.style.display = 'none';
         fireworks.stop();
     }
 }
