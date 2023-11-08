@@ -4,10 +4,8 @@ import MicroModal from 'micromodal';  // es6 module
 import axios from 'axios';
 // import * as d3 from "d3";
 
-const apiURL2 = 'http://localhost:4000/api/name_increment';
-const apiURL3 = 'http://localhost:4000/api/totalSpins';
 
-const api = 'http://localhost:4000/api/';
+const api = 'http://18.118.22.197:4000/api/';
 const nameIncrement = "name_increment";
 const totalSpins = "total_spins";
 const topNumber = "top_number_leaderboard"
