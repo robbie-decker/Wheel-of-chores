@@ -1,11 +1,6 @@
 @font-face {
   font-family: "Vine Spinach";
-  src: url("./fonts/Vine\ Spinach.otf");
-}
-
-@font-face {
-  font-family: "Janda Manatee";
-  src: url("./fonts/JandaManateeBubble.ttf")
+  src: url("./assets/fonts/VineSpinach.otf");
 }
 
 :root{
