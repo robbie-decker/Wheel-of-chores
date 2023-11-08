@@ -32,7 +32,7 @@ db.once('open', () => {
 app.use('/api', require('./routes/api'));
 
 app.get('/', (req, res) => {
-  res.send('Hi World!')
+  res.send('This is the REST API for Robbie Decker\'s Wheel of Chores apps. \n Go to https://robbie-decker.github.io/Wheel-of-chores/')
 })
 // Start the server
 const PORT = process.env.PORT || 4000;
