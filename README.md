@@ -29,7 +29,7 @@ This is a fairly straight forward full stack application.
 - Backend:
     - Nodejs
     - Express
-    - MongoDB
+    - MongoDB with MongoDB Atlas
         - Database
     - Mongoose
         - Tool interacting with MongoDB
