@@ -5,7 +5,7 @@ import axios from 'axios';
 // import * as d3 from "d3";
 
 
-const api = 'https://18.118.22.197:4000/api/';
+const api = 'https://rootsy.dev:4000/api/';
 const nameIncrement = "name_increment";
 const totalSpins = "total_spins";
 const topNumber = "top_number_leaderboard"
