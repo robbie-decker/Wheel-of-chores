@@ -2,6 +2,7 @@ My website's frontend can be accesses at https://robbie-decker.github.io/Wheel-o
 The backend is on my own Amazon EC2 instance.
 
 ### Commands for instance
+May have to run commands below with `sudo`
 - Start
     `pm2 start index.js`
 - Stop
