@@ -2,10 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 
 const People = require('./models/People');
 
 const app = express();
+
+// Files needed for SSL to use HTTPS
+var privateKey = fs.readFileSync("/etc/letsencrypt/live/rootsy.dev/privkey.pem");
+var certificate = fs.readFileSync("/etc/letsencrypt/live/rootsy.dev/fullchain.pem");
 
 // Enable All CORS Requests
 app.use(cors());
@@ -34,8 +40,11 @@ app.use('/api', require('./routes/api'));
 app.get('/', (req, res) => {
   res.send('This is the REST API for Robbie Decker\'s Wheel of Chores apps. \n Go to https://robbie-decker.github.io/Wheel-of-chores/')
 })
-// Start the server
+// Start the server with HTTPS
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+https.createServer({
+    key: privateKey,
+    cert: certificate
+}, app).listen(PORT, () =>{
+	console.log(`listening on ${PORT}`)
 });
