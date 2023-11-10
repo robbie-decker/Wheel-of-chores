@@ -52,6 +52,13 @@ text{
   justify-content: center;
 }
 
+@media only screen and (max-width: 600px) {
+  #main_content {
+    display: inline;
+  }
+}
+
+
 #chart{
   position:inline;
   width:450px;
@@ -130,6 +137,7 @@ img{
   align-items: center;
   justify-content: center;
   margin-left: 10px;
+  margin-top: 10px;
 }
 
 .total_spin_container{

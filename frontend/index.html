@@ -12,25 +12,9 @@
       <p>Add people's names to the wheel and spin to see who has to do the chore!</p>
     </div>
     <div id="main_content">
-      <div id="chart"></div>
-      <div id="stats">
-      <div class="leaderboard">
-        <h3 class="modal">Biggest Losers</h3>
-        <ol>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ol>
-      </div>
-        <div class="total_spin_container">
-          <p>Total Spins:&nbsp;</p><b><p id="totalSpins"></p></b>
-        </div>
-      </div>
-
-    </div>
-    <p id=notif></p>
+      <div id="wheel">
+        <div id="chart"></div>
+        <p id=notif></p>
     <div class="buttons_container">
       <div class="buttons">
         <div class="add_container">
@@ -51,6 +35,25 @@
         </div>
       </div>
     </div>
+      </div>
+      <div id="stats">
+      <div class="leaderboard">
+        <h3 class="modal">Biggest Losers</h3>
+        <ol>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ol>
+      </div>
+        <div class="total_spin_container">
+          <p>Total Spins:&nbsp;</p><b><p id="totalSpins"></p></b>
+        </div>
+      </div>
+
+    </div>
+    
     <!-- Modal for clicking on slice-->
     <div class="modal micromodal-slide" id="modal-slice-info" aria-hidden="true">
       <div class="modal__overlay" tabindex="-1" data-micromodal-close>
