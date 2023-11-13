@@ -17,10 +17,11 @@ MicroModal.init({
 });
 
 // Get my buttons
-var add = document.getElementById("add");
-add.onclick = function () {
-  addPerson();
-};
+var add_form = document.getElementById("add_form");
+add_form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    addPerson();
+  });
 // Add event listener for the "DELETE" button in the modal
 document.getElementById("delete").onclick = function () {
   deletePerson();
@@ -71,13 +72,6 @@ const fireworks = new Fireworks(fireworkContainer, {
   particles: 50,
 });
 
-// FIXME: Change the add button to be a form so that pressing enter adds a person
-add.addEventListener("keypress", function (event) {
-  if (event.key === 13) {
-    event.preventDefault();
-    add.click();
-  }
-});
 // Add defualt handling of array/ objects to localStorage
 Storage.prototype.setObj = function (key, obj) {
   return this.setItem(key, JSON.stringify(obj));
@@ -105,7 +99,6 @@ var padding = { top: 0, right: 20, bottom: 0, left: 20 },
 var svg, container, vis, spinButton, pie, arc, arcs;
 renderWheel();
 
-// TODO: figure this out
 function renderWheel() {
   oldpick = [];
   var data = localStorage.getObj("data");
