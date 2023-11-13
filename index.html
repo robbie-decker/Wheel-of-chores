@@ -5,78 +5,99 @@
     <link rel="icon" type="image/svg+xml" href="./assets/washing_machine.5867f8b2.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wheel of Chores</title>
-    <script type="module" crossorigin src="./assets/main.cb874acf.js"></script>
-    <link rel="stylesheet" href="./assets/main.c3b7699c.css">
+    <script type="module" crossorigin src="./assets/main.8cc45bb6.js"></script>
+    <link rel="stylesheet" href="./assets/main.7f980a8e.css">
   </head>
   <body>
     <div class="intro">
       <h1 class="title">Wheel of Chores!</h1>
-      <p>Add people's names to the wheel and spin to see who has to do the chore!</p>
+      <p>
+        Add people's names to the wheel and spin to see who has to do the chore!
+      </p>
     </div>
     <div id="main_content">
       <div id="wheel">
         <div id="chart"></div>
-        <p id=notif></p>
-    <div class="buttons_container">
-      <div class="buttons">
-        <div class="add_container">
-          <button id="add" title="Add new person">
-            <img src="./assets/plus.fde68a76.svg" alt="Plus sign">
-          </button>
-          <input id="add_text" type="text" style="margin-top: 4px;">
+        <p id="notif"></p>
+        <div class="buttons_container">
+          <div class="buttons">
+            <form class="add_container" id="add_form">
+              <button title="Add new person">
+                <img src="./assets/plus.fde68a76.svg" alt="Plus sign" />
+              </button>
+              <input id="add_text" type="text" style="margin-top: 4px" />
+            </form>
+            <button id="clear" title="Remove all data">
+              <img src="./assets/trash.19be14c2.svg" alt="Cute lil trash can" />
+            </button>
+            <button id="reset" title="Reset wheel">
+              <img src="./assets/reset.534c44a6.svg" alt="Circular arrow" />
+            </button>
+            <div>
+              <input id="remove_on_spin" type="checkbox" checked="checked" />
+              <label for="remove_on_spin">Remove selected person</label>
+            </div>
+          </div>
         </div>
-        <button id="clear" title="Remove all data">
-          <img src="./assets/trash.19be14c2.svg" alt="Cute lil trash can">
-        </button>
-        <button id="reset" title="Reset wheel">
-          <img src="./assets/reset.534c44a6.svg" alt="Circular arrow">
-        </button>
-        <div>
-          <input id="remove_on_spin" type="checkbox" checked="checked">
-          <label for="remove_on_spin">Remove selected person</label>
-        </div>
-      </div>
-    </div>
       </div>
       <div id="stats">
-      <div class="leaderboard">
-        <h3 class="modal">Biggest Losers</h3>
-        <ol>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ol>
-      </div>
+        <div class="leaderboard">
+          <h3 class="modal">Biggest Losers</h3>
+          <ol>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ol>
+        </div>
         <div class="total_spin_container">
-          <p>Total Spins:&nbsp;</p><b><p id="totalSpins"></p></b>
+          <p>Total Spins:&nbsp;</p>
+          <b><p id="totalSpins"></p></b>
         </div>
       </div>
-
     </div>
-    
+
     <!-- Modal for clicking on slice-->
-    <div class="modal micromodal-slide" id="modal-slice-info" aria-hidden="true">
+    <div
+      class="modal micromodal-slide"
+      id="modal-slice-info"
+      aria-hidden="true"
+    >
       <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-1-title"
+        >
           <header class="modal__header">
-            <h2 class="modal__title">
-              Edit & Delete
-            </h2>
-            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            <h2 class="modal__title">Edit & Delete</h2>
+            <button
+              class="modal__close"
+              aria-label="Close modal"
+              data-micromodal-close
+            ></button>
           </header>
           <div class="modal-content-content">
             <div class="modal__content">
               <div>
                 <label for="">Edit data</label>
-                <input type="text" id="slice_name_input">
+                <input type="text" id="slice_name_input" />
               </div>
               <button id="delete" class="modal__btn">DELETE</button>
             </div>
             <footer class="modal__footer">
-              <button id="save" class="modal__btn modal__btn-primary">Save</button>
-              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+              <button id="save" class="modal__btn modal__btn-primary">
+                Save
+              </button>
+              <button
+                class="modal__btn"
+                data-micromodal-close
+                aria-label="Close this dialog window"
+              >
+                Close
+              </button>
             </footer>
           </div>
         </div>
@@ -86,22 +107,34 @@
     <div class="modal micromodal-slide" id="modal-selected" aria-hidden="true">
       <div class="modal__overlay" tabindex="-1" data-micromodal-close>
         <div id="fireworks"></div>
-        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-1-title"
+        >
           <header class="modal__header">
             <h1>Congratulations</h1>
-            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            <button
+              class="modal__close"
+              aria-label="Close modal"
+              data-micromodal-close
+            ></button>
           </header>
           <div class="modal-content-content">
             <div class="modal__content">
               <div class="modal__selected_text">
-                <b><p id="selected_text"></p></b><p>&nbsp;was selected!</p>
+                <b><p id="selected_text"></p></b>
+                <p>&nbsp;was selected!</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <footer><p>Created By <a href="https://robbiedecker.com/">Robbie Decker</a></p></footer>
+    <footer>
+      <p>Created By <a href="https://robbiedecker.com/">Robbie Decker</a></p>
+    </footer>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     
   </body>
