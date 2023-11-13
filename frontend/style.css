@@ -3,28 +3,28 @@
   src: url("./assets/fonts/VineSpinach.otf");
 }
 
-:root{
-  --main-color: #71B7AD;
-  --main-darker: #48978C;
-  --accent: #99DF8A;
-  --accent-darker: #71C85F;
+:root {
+  --main-color: #71b7ad;
+  --main-darker: #48978c;
+  --accent: #99df8a;
+  --accent-darker: #71c85f;
   font-family: Courier, Arial;
 }
 
-body{
+body {
   height: 100vh;
   width: auto;
   margin: 0;
-  background-color: #F5FDE1;
+  background-color: #f5fde1;
 }
 
-text{
-  font-family:Helvetica, Arial, sans-serif;
-  font-size:18px;
-  pointer-events:none;
+text {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  pointer-events: none;
 }
 
-.intro{
+.intro {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,22 +32,22 @@ text{
   text-align: center;
 }
 
-.intro *{
+.intro * {
   max-width: 600px;
 }
 
-.intro p{
+.intro p {
   margin: 5px 0 0 0;
 }
 
-.title{
+.title {
   text-align: center;
-  font-family: 'Vine Spinach', Courier, Arial;
+  font-family: "Vine Spinach", Courier, Arial;
   font-weight: 100;
   margin: 0 0 4px 0;
 }
 
-#main_content{
+#main_content {
   display: flex;
   justify-content: center;
 }
@@ -58,44 +58,43 @@ text{
   }
 }
 
-
-#chart{
-  position:inline;
-  width:450px;
-  height:450px;
-  top:10rem;
-  left:0;
+#chart {
+  position: inline;
+  width: 450px;
+  height: 450px;
+  top: 10rem;
+  left: 0;
   /* margin: auto; */
 }
 
-#notif{
+#notif {
   text-align: center;
   font-weight: bold;
-
 }
 
-#add{
+#add {
   flex: 1;
 }
 
-#delete{
+#delete {
   flex: 1;
 }
-img{
+img {
   width: 50px;
-  height: 50px
+  height: 50px;
 }
 
-.buttons_container{
+.buttons_container {
   display: flex;
   justify-content: center;
 }
 
-.buttons{
+.buttons {
   padding: 10px;
   border-radius: 10px;
   border: var(--main-darker) 5px solid;
-  font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+    helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
   display: inline-flex;
   gap: 5px;
   flex-direction: row;
@@ -105,24 +104,24 @@ img{
   margin: 0 auto;
 }
 
-.buttons button{
+.buttons button {
   background-color: white;
   border: black 5px solid;
   border-radius: 5px;
 }
 
-.buttons button:hover{
-  transition: background-color .2s;
+.buttons button:hover {
+  transition: background-color 0.2s;
   background-color: rgb(182, 182, 182);
   cursor: pointer;
 }
 
-.add_container{
+.add_container {
   display: flex;
   flex-direction: column;
 }
 
-#fireworks{
+#fireworks {
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -131,7 +130,7 @@ img{
   display: none;
 }
 
-#stats{
+#stats {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -140,36 +139,36 @@ img{
   margin-top: 10px;
 }
 
-.total_spin_container{
+.total_spin_container {
   display: flex;
   background-color: var(--accent);
   padding: 10px;
   justify-content: center;
   border-radius: 10px;
   margin-top: 20px;
-  border:var(--accent-darker) 5px solid;
+  border: var(--accent-darker) 5px solid;
 }
 
-.leaderboard{
+.leaderboard {
   padding: 10px;
   background-color: var(--main-color);
   border-radius: 10px;
   border: var(--main-darker) 5px solid;
 }
 
-.leaderboard h3{
+.leaderboard h3 {
   text-align: center;
   margin: 5px 0;
 }
 
-.leaderboard ol{
+.leaderboard ol {
   list-style-position: inside;
   margin: 0;
   margin-left: 10px;
-  padding:0;
+  padding: 0;
 }
 
-.leaderboard ol li{
+.leaderboard ol li {
   margin: 8px 0;
 }
 
@@ -178,7 +177,8 @@ img{
 **************************/
 
 .modal {
-  font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+    helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
   z-index: 100;
 }
 
@@ -188,11 +188,11 @@ img{
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index:10;
+  z-index: 10;
 }
 
 .modal__container {
@@ -207,12 +207,10 @@ img{
 }
 
 @supports (display: flex) {
-	
-	.modal__container {
-		height: initial;
-		max-height: 80vh;
-	}
-	
+  .modal__container {
+    height: initial;
+    max-height: 80vh;
+  }
 }
 
 .modal__header {
@@ -223,15 +221,13 @@ img{
 }
 
 @supports (display: flex) {
-	
-	.modal__header {
+  .modal__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-	  height:initial;
-	  margin-bottom: 0px;
-	}
-	
+    height: initial;
+    margin-bottom: 0px;
+  }
 }
 
 .modal__title {
@@ -259,44 +255,42 @@ img{
 }
 
 @supports (display: flex) {
-	
   .modal__title {
-	  position: static;
+    position: static;
   }
-	
+
   .modal__close {
-	  position: static;
+    position: static;
   }
-  
 }
 
-.modal__header .modal__close:before { content: "\2715"; }
+.modal__header .modal__close:before {
+  content: "\2715";
+}
 
 .modal__content {
   margin-top: 10px;
   margin-bottom: 10px;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, 0.8);
 }
 
 @supports (display: flex) {
-	
-	.modal__content {
-	  margin-top: 2rem;
-	  margin-bottom: 2rem;
-	  line-height: 1.5;
-	}
-
+  .modal__content {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
 }
 
 .modal__btn {
-  font-size: .875rem;
+  font-size: 0.875rem;
   padding-left: 1rem;
   padding-right: 1rem;
-  padding-top: .5rem;
-  padding-bottom: .5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   background-color: #e6e6e6;
-  color: rgba(0,0,0,.8);
-  border-radius: .25rem;
+  color: rgba(0, 0, 0, 0.8);
+  border-radius: 0.25rem;
   border-style: none;
   border-width: 0;
   cursor: pointer;
@@ -311,9 +305,9 @@ img{
   backface-visibility: hidden;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
-  transition: -webkit-transform .25s ease-out;
-  transition: transform .25s ease-out;
-  transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+  transition: -webkit-transform 0.25s ease-out;
+  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
 }
 
 .modal__btn-primary {
@@ -322,8 +316,8 @@ img{
 }
 
 #delete {
-   background-color: #d01a1a;
-   margin-top: 10px;
+  background-color: #d01a1a;
+  margin-top: 10px;
 }
 
 /**************************
@@ -331,23 +325,39 @@ img{
 **************************/
 
 @keyframes mmfadeIn {
-    from { opacity: 0; }
-      to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes mmfadeOut {
-    from { opacity: 1; }
-      to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes mmslideIn {
-  from { transform: translateY(15%); }
-    to { transform: translateY(0); }
+  from {
+    transform: translateY(15%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes mmslideOut {
-    from { transform: translateY(0); }
-    to { transform: translateY(-10%); }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10%);
+  }
 }
 
 .micromodal-slide {
@@ -359,19 +369,19 @@ img{
 }
 
 .micromodal-slide[aria-hidden="false"] .modal__overlay {
-  animation: mmfadeIn .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mmfadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .micromodal-slide[aria-hidden="false"] .modal__container {
-  animation: mmslideIn .3s cubic-bezier(0, 0, .2, 1);
+  animation: mmslideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .micromodal-slide[aria-hidden="true"] .modal__overlay {
-  animation: mmfadeOut .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mmfadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .micromodal-slide[aria-hidden="true"] .modal__container {
-  animation: mmslideOut .3s cubic-bezier(0, 0, .2, 1);
+  animation: mmslideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .micromodal-slide .modal__container,
@@ -383,19 +393,19 @@ img{
   Custom styles for individual modals
 **************************/
 
-.modal__selected_text{
+.modal__selected_text {
   display: flex;
   justify-content: center;
   font-size: 20px;
 }
 
 .modal__container button {
-	outline: none;
-	cursor: pointer !important;
+  outline: none;
+  cursor: pointer !important;
 }
 
 .modal__container h2.modal__title {
-	color: #595959;
+  color: #595959;
 }
 
 .modal__header {
@@ -422,7 +432,7 @@ img{
   margin-top: 2rem;
   margin-bottom: 2rem;
   line-height: 1.5;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /* .modal__btn {
@@ -436,22 +446,18 @@ img{
   Mobile custom styles for individual modals
 **************************/
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-	
-	.modal__container {
-	  width: 90% !important;
-	  min-width: 90% !important;
-	}
-	
-	@supports (display: flex) {
-	
-		.modal__container {
-			width: 90% !important;
-			min-width: 90% !important;
-		}
-		
-	}
-  
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .modal__container {
+    width: 90% !important;
+    min-width: 90% !important;
+  }
+
+  @supports (display: flex) {
+    .modal__container {
+      width: 90% !important;
+      min-width: 90% !important;
+    }
+  }
 }
 
 /**************************
@@ -477,9 +483,9 @@ button.external {
 
 .other-links a {
   font-size: 12px;
-}    
+}
 
-footer{
+footer {
   margin: 5px auto 2px auto;
   text-align: center;
 }
